@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>텀블러 공장 제조품질관리</title>
+    <style>
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: #f3f5f7;
+        color: #202a35;
+        font-family: Arial, sans-serif;
+      }
+
+      .app-header {
+        min-height: 76px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 12px 32px;
+        background: #fff;
+        border-bottom: 1px solid #dce2e8;
+      }
+
+      .brand-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: #202a35;
+        font-size: 20px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .brand-link img {
+        display: block;
+        width: 44px;
+        height: 44px;
+      }
+
+      .header-actions,
+      .header-actions nav {
+        display: flex;
+        align-items: center;
+      }
+
+      .header-actions {
+        gap: 22px;
+      }
+
+      .header-actions nav {
+        gap: 20px;
+      }
+
+      .header-actions a {
+        color: #276447;
+        font-weight: 650;
+      }
+
+      .header-user {
+        color: #40584d;
+        white-space: nowrap;
+      }
+
+      .logout-button {
+        width: auto;
+        min-height: 40px;
+        margin: 0;
+        padding: 8px 16px;
+      }
+
+      .page-content {
+        min-height: calc(100vh - 77px);
+        display: grid;
+        place-items: center;
+        padding: 24px 0;
+        box-sizing: border-box;
+      }
+
+      .yellow-notice {
+        margin: 16px 24px 0;
+        padding: 14px 18px;
+        border: 1px solid #e2c34f;
+        border-radius: 6px;
+        background: #fff4c2;
+        color: #4b3d12;
+        line-height: 1.5;
+      }
+
+      .yellow-notice[hidden],
+      .app-footer[hidden] {
+        display: none;
+      }
+
+      .app-footer {
+        padding: 18px 24px;
+        color: #5b6672;
+        text-align: center;
+      }
+
+      #app-screen {
+        width: min(100% - 32px, 920px);
+        box-sizing: border-box;
+        padding: 24px;
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgb(20 40 60 / 6%);
+      }
+
+      #app-screen h1 {
+        margin: 0;
+      }
+
+      #not-found-view p {
+        margin: 0 0 18px;
+      }
+
+      #not-found-view a {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 8px;
+        background: #276447;
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .login-box {
+        box-sizing: border-box;
+        width: min(100% - 32px, 420px);
+        padding: 32px;
+        border: 1px solid #dce2e8;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgb(20 40 60 / 8%);
+      }
+
+      h1 {
+        margin: 0 0 28px;
+        font-size: 28px;
+        line-height: 1.35;
+      }
+
+      form {
+        display: grid;
+        gap: 12px;
+      }
+
+      label {
+        margin-top: 4px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      input,
+      button {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 48px;
+        border-radius: 6px;
+        font: inherit;
+      }
+
+      input {
+        padding: 10px 12px;
+        border: 1px solid #aeb9c4;
+      }
+
+      button {
+        margin-top: 8px;
+        border: 0;
+        background: #245f9e;
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.65;
+      }
+
+      .error-message {
+        margin: 4px 0 0;
+        color: #b42318;
+        line-height: 1.5;
+      }
+
+      .error-message[hidden] {
+        display: none;
+      }
+
+      .header-actions[hidden] {
+        display: none;
+      }
+
+      @media (max-width: 600px) {
+        .app-header {
+          padding: 12px 16px;
+        }
+
+        .brand-link {
+          font-size: 16px;
+        }
+
+        .header-actions,
+        .header-actions nav {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand-link" href="/" data-link aria-label="텀블러 공장 제조품질관리 홈">
+        <img src="/logo.svg" alt="" />
+        <span>텀블러 공장 제조품질관리</span>
+      </a>
+      <div id="header-actions" class="header-actions" hidden>
+        <nav aria-label="주요 메뉴">
+          <a href="/settings" data-link>설정</a>
+          <span id="header-user" class="header-user"></span>
+        </nav>
+        <button id="logout-button" class="logout-button" type="button">로그아웃</button>
+      </div>
+    </header>
+    <aside id="yellow-notice" class="yellow-notice" hidden>
+      AI 분석 결과는 보조 자료이며 품질 담당자의 확인이 필요합니다. 최종 출하 승인은 현장 기준에 따라 별도로 진행하세요.
+    </aside>
+    <div class="page-content">
+      <main class="login-box" id="login-box">
+        <h1>텀블러 공장 제조품질관리</h1>
+        <form id="login-form">
+          <label for="username">계정</label>
+          <input
+            id="username"
+            name="username"
+            value="writer"
+            autocomplete="username"
+            required
+          />
+
+          <label for="password">비밀번호</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value="writer1234!"
+            autocomplete="current-password"
+            required
+          />
+
+          <button id="login-button" type="submit">로그인</button>
+          <p id="login-error" class="error-message" role="alert" hidden></p>
+        </form>
+      </main>
+      <main id="app-screen" hidden>
+        <h1 id="screen-title">품질 현황</h1>
+        <section id="not-found-view" hidden>
+          <p>페이지를 찾을 수 없습니다</p>
+          <a href="/" data-link>홈으로 가기</a>
+        </section>
+      </main>
+    </div>
+    <footer id="app-footer" class="app-footer" hidden>텀블러 공장 품질관리 시스템입니다.</footer>
+    <script>
+      const loginBox = document.querySelector('#login-box');
+      const appScreen = document.querySelector('#app-screen');
+      const screenTitle = document.querySelector('#screen-title');
+      const notFoundView = document.querySelector('#not-found-view');
+      const loginForm = document.querySelector('#login-form');
+      const loginButton = document.querySelector('#login-button');
+      const loginError = document.querySelector('#login-error');
+      const headerActions = document.querySelector('#header-actions');
+      const headerUser = document.querySelector('#header-user');
+      const logoutButton = document.querySelector('#logout-button');
+      const usernameInput = document.querySelector('#username');
+      const passwordInput = document.querySelector('#password');
+      const yellowNotice = document.querySelector('#yellow-notice');
+      const appFooter = document.querySelector('#app-footer');
+      let signedIn = false;
+      const roleLabels = {
+        writer: '작성자',
+        reviewer: '검토자',
+        'factory-user': '품질관리',
+      };
+
+      function showSignedInUser(user) {
+        signedIn = true;
+        headerUser.textContent = `${user.username} (${roleLabels[user.role] || user.role})`;
+        headerActions.hidden = false;
+        yellowNotice.hidden = false;
+        appFooter.hidden = false;
+        loginBox.hidden = true;
+        appScreen.hidden = false;
+        renderScreen();
+      }
+
+      function renderScreen() {
+        const route = window.location.pathname;
+        let title = '품질 현황';
+
+        if (route === '/inspections/new') {
+          title = '검사 등록';
+        } else if (/^\/inspections\/[^/]+$/.test(route)) {
+          title = '검사 상세';
+        } else if (route === '/settings') {
+          title = '설정';
+        } else if (route !== '/') {
+          screenTitle.hidden = true;
+          notFoundView.hidden = false;
+          return;
+        }
+
+        notFoundView.hidden = true;
+        screenTitle.textContent = title;
+        screenTitle.hidden = false;
+      }
+
+      function navigate(path) {
+        if (window.location.pathname !== path) {
+          window.history.pushState({}, '', path);
+        }
+        renderScreen();
+      }
+
+      function showLoginError(message) {
+        loginError.textContent = message;
+        loginError.hidden = false;
+      }
+
+      async function checkLogin() {
+        try {
+          const response = await fetch('/api/session');
+          const result = await response.json();
+          if (!response.ok) {
+            throw new Error(result.error || '로그인 상태를 확인하지 못했습니다.');
+          }
+          if (result.user) {
+            showSignedInUser(result.user);
+          } else {
+            signedIn = false;
+          }
+        } catch (error) {
+          showLoginError(error.message || '로그인 상태를 확인하지 못했습니다.');
+        }
+      }
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        loginError.textContent = '';
+        loginError.hidden = true;
+        loginButton.disabled = true;
+
+        const formData = new FormData(loginForm);
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: formData.get('username'),
+              password: formData.get('password'),
+            }),
+          });
+          const result = await response.json();
+          if (!response.ok || result.error) {
+            showLoginError(result.error || '로그인 정보를 확인하세요.');
+            return;
+          }
+          const sessionResponse = await fetch('/api/session');
+          const sessionResult = await sessionResponse.json();
+          if (!sessionResponse.ok || !sessionResult.user) {
+            throw new Error(sessionResult.error || '로그인 상태를 확인하지 못했습니다.');
+          }
+          showSignedInUser(sessionResult.user);
+        } catch (error) {
+          showLoginError(error.message || '서버와 통신할 수 없습니다.');
+        } finally {
+          loginButton.disabled = false;
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const link = event.target.closest('a[data-link]');
+        if (
+          !signedIn ||
+          !link ||
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          link.target ||
+          link.hasAttribute('download')
+        ) {
+          return;
+        }
+
+        const destination = new URL(link.href, window.location.href);
+        if (destination.origin !== window.location.origin) return;
+
+        event.preventDefault();
+        navigate(`${destination.pathname}${destination.search}${destination.hash}`);
+      });
+
+      logoutButton.addEventListener('click', async () => {
+        logoutButton.disabled = true;
+        try {
+          const response = await fetch('/api/logout', { method: 'POST' });
+          const result = await response.json();
+          if (!response.ok || result.error) {
+            throw new Error(result.error || '로그아웃하지 못했습니다.');
+          }
+
+          loginForm.reset();
+          usernameInput.value = 'writer';
+          passwordInput.value = 'writer1234!';
+          loginError.textContent = '';
+          loginError.hidden = true;
+          headerUser.textContent = '';
+          headerActions.hidden = true;
+          yellowNotice.hidden = true;
+          appFooter.hidden = true;
+          appScreen.hidden = true;
+          loginBox.hidden = false;
+          signedIn = false;
+        } catch (error) {
+          showLoginError(error.message || '로그아웃하지 못했습니다.');
+          loginBox.hidden = false;
+        } finally {
+          logoutButton.disabled = false;
+        }
+      });
+
+      window.addEventListener('popstate', () => {
+        if (signedIn) renderScreen();
+      });
+
+      checkLogin();
+    </script>
+  </body>
+</html>

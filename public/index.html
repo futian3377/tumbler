@@ -681,6 +681,16 @@
         <section id="settings-view" class="screen-view" hidden>
           <h2>저장소 상태</h2>
           <p id="storage-status" role="status">저장소 상태를 불러오는 중입니다.</p>
+          <p id="gemini-status" role="status">Gemini 판독 상태를 불러오는 중입니다.</p>
+          <div class="prompt-settings">
+            <h2>Gemini 판독 지시</h2>
+            <label for="prompt-version">버전</label>
+            <select id="prompt-version" disabled></select>
+            <label for="prompt-text">지시문</label>
+            <textarea id="prompt-text" rows="12" disabled></textarea>
+            <button id="save-prompt" type="button" disabled>수정본 저장</button>
+            <p id="prompt-message" role="status" aria-live="polite"></p>
+          </div>
         </section>
         <section id="inspection-detail-view" class="screen-view" hidden>
           <p id="inspection-detail-error" class="error-message" role="alert" hidden></p>
@@ -746,6 +756,12 @@
       const inspectionDetailView = document.querySelector('#inspection-detail-view');
       const settingsView = document.querySelector('#settings-view');
       const storageStatus = document.querySelector('#storage-status');
+      const geminiStatus = document.querySelector('#gemini-status');
+      const promptVersion = document.querySelector('#prompt-version');
+      const promptText = document.querySelector('#prompt-text');
+      const savePromptButton = document.querySelector('#save-prompt');
+      const promptMessage = document.querySelector('#prompt-message');
+      let promptRecords = [];
       const notFoundView = document.querySelector('#not-found-view');
       const inspectionDetailError = document.querySelector('#inspection-detail-error');
       const inspectionDetailContent = document.querySelector('#inspection-detail-content');
@@ -855,7 +871,10 @@
         }
         if (detailMatch) loadInspectionDetail(decodeURIComponent(detailMatch[1]));
         if (route === '/') loadHomeSummary();
-        if (route === '/settings') loadStorageStatus();
+        if (route === '/settings') {
+          loadStorageStatus();
+          loadPrompts();
+        }
       }
 
       function selectDetailTab(index) {
@@ -1001,11 +1020,67 @@
             throw new Error(result.error || '저장소 상태를 불러오지 못했습니다.');
           }
           storageStatus.textContent = `저장소: ${result.label}`;
+          geminiStatus.textContent = `Gemini 판독: ${result.gemini_label}`;
         } catch (error) {
           if (requestId !== storageStatusRequestId) return;
           storageStatus.textContent = error.message || '저장소 상태를 불러오지 못했습니다.';
+          geminiStatus.textContent = error.message || 'Gemini 판독 상태를 불러오지 못했습니다.';
         }
       }
+
+      async function loadPrompts(selectedName) {
+        promptMessage.textContent = '';
+        promptVersion.disabled = true;
+        promptText.disabled = true;
+        savePromptButton.disabled = true;
+        try {
+          const response = await fetch('/api/prompts');
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || 'Gemini 지시문을 불러오지 못했습니다.');
+          promptRecords = result.prompts;
+          promptVersion.replaceChildren(...promptRecords.map((prompt) => {
+            const option = document.createElement('option');
+            option.value = prompt.name;
+            option.textContent = prompt.name;
+            return option;
+          }));
+          promptVersion.value = selectedName || result.default;
+          const selected = promptRecords.find((prompt) => prompt.name === promptVersion.value);
+          promptText.value = selected?.text || '';
+          promptVersion.disabled = false;
+          promptText.disabled = false;
+          savePromptButton.disabled = false;
+        } catch (error) {
+          promptMessage.textContent = error.message || 'Gemini 지시문을 불러오지 못했습니다.';
+        }
+      }
+
+      promptVersion.addEventListener('change', () => {
+        const selected = promptRecords.find((prompt) => prompt.name === promptVersion.value);
+        promptText.value = selected?.text || '';
+        promptMessage.textContent = '';
+      });
+
+      savePromptButton.addEventListener('click', async () => {
+        const base = promptVersion.value.match(/^v[123]/)?.[0];
+        savePromptButton.disabled = true;
+        promptMessage.textContent = '';
+        try {
+          const response = await fetch('/api/prompts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ base, text: promptText.value }),
+          });
+          const saved = await response.json();
+          if (!response.ok) throw new Error(saved.error || '수정본을 저장하지 못했습니다.');
+          await loadPrompts(saved.name);
+          promptMessage.textContent = '수정본을 저장했습니다.';
+        } catch (error) {
+          promptMessage.textContent = error.message || '수정본을 저장하지 못했습니다.';
+        } finally {
+          savePromptButton.disabled = false;
+        }
+      });
 
       async function loadHomeInspections() {
         const requestId = ++homeListRequestId;

@@ -6,24 +6,24 @@ export interface StorageInfo {
 }
 
 export type GeminiMode = 'off' | 'mock' | 'live';
+export type NotebookLMMode = 'off' | 'mock' | 'live';
 
 export interface OperationsInfo extends StorageInfo {
   gemini_mode: GeminiMode;
   gemini_label: string;
 }
 
+export interface NotebookLMInfo {
+  notebooklm_mode: NotebookLMMode;
+  notebooklm_label: string;
+}
+
 export function getStorageInfo(): StorageInfo {
   if (process.env.STORAGE_MODE === 'live') {
-    return {
-      storage: 'live',
-      label: '\u0047\u006f\u006f\u0067\u006c\u0065 \uC2DC\uD2B8\u00B7\uB4DC\uB77C\uC774\uBE0C(live)',
-    };
+    return { storage: 'live', label: 'Google 시트·드라이브(live)' };
   }
 
-  return {
-    storage: 'mock',
-    label: '\uB0B4 \uCEF4\uD4E8\uD130(mock)',
-  };
+  return { storage: 'mock', label: '내 컴퓨터(mock)' };
 }
 
 export function getGeminiInfo(): Pick<OperationsInfo, 'gemini_mode' | 'gemini_label'> {
@@ -35,12 +35,43 @@ export function getGeminiInfo(): Pick<OperationsInfo, 'gemini_mode' | 'gemini_la
       ? 'live'
       : 'off';
   const labels: Record<GeminiMode, string> = {
-    off: '\uAFB8\uC9D0(off)',
-    mock: '\uC5F0\uC2B5\uC6A9(mock)',
-    live: '\uC2E4\uC81C Gemini(live)',
+    off: '꺼짐(off)',
+    mock: '연습용(mock)',
+    live: '실제 Gemini(live)',
   };
 
   return { gemini_mode: mode, gemini_label: labels[mode] };
+}
+
+export function getNotebookLMInfo(): NotebookLMInfo {
+  const storage = getStorageInfo().storage;
+  const configuredMode = process.env.NOTEBOOKLM_MODE;
+  const mode: NotebookLMMode = configuredMode
+    ? (configuredMode as NotebookLMMode)
+    : storage === 'mock'
+      ? 'mock'
+      : 'off';
+  const labels: Record<NotebookLMMode, string> = {
+    off: '근거 대조 꺼짐(off)',
+    mock: '모의 응답(mock)',
+    live: '실제 질의(live)',
+  };
+
+  return { notebooklm_mode: mode, notebooklm_label: labels[mode] };
+}
+
+export function validateNotebookLMMode(): void {
+  const storage = getStorageInfo().storage;
+  const mode = process.env.NOTEBOOKLM_MODE;
+  const resolvedMode = mode || (storage === 'mock' ? 'mock' : 'off');
+  const validModes = ['off', 'mock', 'live'];
+  const compatible = storage === 'mock' || resolvedMode !== 'mock';
+
+  if (!validModes.includes(resolvedMode) || !compatible) {
+    throw new Error(
+      'NOTEBOOKLM_MODE 설정을 확인하세요. STORAGE_MODE=mock에는 off, mock, live를, STORAGE_MODE=live에는 off 또는 live를 사용할 수 있습니다.',
+    );
+  }
 }
 
 export function validateGeminiMode(): void {
@@ -55,7 +86,7 @@ export function validateGeminiMode(): void {
 
   if (!validModes.includes(resolvedMode) || !compatible) {
     throw new Error(
-      'GEMINI_MODE \uC124\uC815\uC744 \uD655\uC778\uD558\uC138\uC694. STORAGE_MODE=mock\uC5D0\uB294 off \uB610\uB294 mock, STORAGE_MODE=live\uC5D0\uB294 off \uB610\uB294 live\uB97C \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.',
+      'GEMINI_MODE 설정을 확인하세요. STORAGE_MODE=mock에는 off 또는 mock, STORAGE_MODE=live에는 off 또는 live를 사용할 수 있습니다.',
     );
   }
 }

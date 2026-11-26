@@ -12,19 +12,13 @@ if (!deploymentId) {
   process.exit(1);
 }
 
-if (!/^https:\/\/script\.google\.com\/macros\/s\/AKfyc[A-Za-z0-9_-]+\/exec(?:[?#].*)?$/.test(webAppUrl)) {
-  console.error('웹앱을 바꾸지 못했습니다. 로그인이 만료됐으면 npm.cmd run gas:login을 다시 하고 gas:push부터 다시 하세요.');
-  process.exit(1);
-}
-
 const result = spawnSync(`npx --yes @google/clasp@3.4.1 deploy --deploymentId ${deploymentId}`, {
   shell: true,
   encoding: 'utf8',
 });
-const output = result.stdout ?? '';
-const deployedIds = [...output.matchAll(/^Deployed (AKfyc[A-Za-z0-9_-]+) @\d+$/gm)].map((match) => match[1]);
+const deployments = [...(result.stdout ?? '').matchAll(/^Deployed (AKfyc[A-Za-z0-9_-]+) @(?:\d+|HEAD)\s*$/gm)];
 
-if (result.status === 0 && deployedIds.length === 1 && deployedIds[0] === deploymentId) {
+if (result.status === 0 && deployments.length === 1 && deployments[0][1] === deploymentId) {
   console.log('같은 웹앱을 새 버전으로 바꿨습니다. 주소는 그대로입니다.');
 } else {
   console.error('웹앱을 바꾸지 못했습니다. 로그인이 만료됐으면 npm.cmd run gas:login을 다시 하고 gas:push부터 다시 하세요.');

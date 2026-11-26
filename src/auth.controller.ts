@@ -1,16 +1,6 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import type { Request } from 'express';
-
-interface AuthUser {
-  username: string;
-  role: string;
-}
-
-declare module 'express-session' {
-  interface SessionData {
-    user?: AuthUser;
-  }
-}
+import type { AuthUser } from './auth.types';
 
 const accounts: Record<string, { password: string }> = {
   writer: { password: 'writer1234!' },
@@ -38,11 +28,7 @@ export class AuthController {
       return { error: '로그인 정보를 확인하세요.' };
     }
 
-    if (typeof username !== 'string') {
-      return { error: '로그인 정보를 확인하세요.' };
-    }
-
-    const user: AuthUser = { username, role: username };
+    const user = { username: username as string, role: username as string };
     request.session.user = user;
     return { user };
   }

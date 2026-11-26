@@ -20,5 +20,5 @@ if (existsSync('.clasp.json')) {
 } else {
   if (result.error) console.error(result.error.message);
   if (result.status === 0) console.error('.clasp.json이 생기지 않았습니다.');
-  process.exitCode = result.status ?? 1;
+  process.exitCode = result.status || 1;
 }

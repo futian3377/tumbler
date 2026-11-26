@@ -5,46 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>텀블러 공장 제조품질관리</title>
     <style>
+      :root {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #0f172a;
+        background: #f0f4f8;
+      }
+
       body {
         min-height: 100vh;
         margin: 0;
-        background: #f3f5f7;
-        color: #202a35;
-        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
       }
 
       .app-header {
         min-height: 76px;
         box-sizing: border-box;
+        width: 100%;
+        padding: 12px 32px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 24px;
-        padding: 12px 32px;
         background: #fff;
-        border-bottom: 1px solid #dce2e8;
+        border-bottom: 1px solid #cbd5e1;
       }
 
-      .brand-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        color: #202a35;
-        font-size: 20px;
-        font-weight: 700;
-        text-decoration: none;
-      }
-
-      .brand-link img {
-        display: block;
-        width: 44px;
-        height: 44px;
-      }
-
+      .brand-link,
       .header-actions,
       .header-actions nav {
         display: flex;
         align-items: center;
+      }
+
+      .brand-link {
+        gap: 12px;
+        color: inherit;
+        font-size: 20px;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .brand-link img {
+        width: 44px;
+        height: 44px;
       }
 
       .header-actions {
@@ -56,98 +60,162 @@
       }
 
       .header-actions a {
-        color: #276447;
+        color: #1d4ed8;
         font-weight: 650;
       }
 
       .header-user {
-        color: #40584d;
+        color: #334155;
         white-space: nowrap;
       }
 
       .logout-button {
         width: auto;
-        min-height: 40px;
         margin: 0;
-        padding: 8px 16px;
+        padding: 9px 14px;
       }
 
-      .page-content {
-        min-height: calc(100vh - 77px);
-        display: grid;
-        place-items: center;
-        padding: 24px 0;
-        box-sizing: border-box;
+      .logout-button:disabled {
+        cursor: not-allowed;
+      }
+
+      [hidden] {
+        display: none !important;
       }
 
       .yellow-notice {
-        margin: 16px 24px 0;
-        padding: 14px 18px;
-        border: 1px solid #e2c34f;
-        border-radius: 6px;
-        background: #fff4c2;
-        color: #4b3d12;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 14px 32px;
+        color: #624b0b;
+        background: #fff3bf;
+        border-bottom: 1px solid #ead98a;
         line-height: 1.5;
       }
 
-      .yellow-notice[hidden],
-      .app-footer[hidden] {
-        display: none;
+      .page-content {
+        flex: 1;
+        width: 100%;
+        box-sizing: border-box;
+        display: grid;
+        place-items: center;
+        padding: 32px 20px;
       }
 
       .app-footer {
         padding: 18px 24px;
-        color: #5b6672;
+        color: #475569;
         text-align: center;
+        background: #fff;
+        border-top: 1px solid #cbd5e1;
+      }
+
+      .login-box {
+        width: min(100% - 40px, 420px);
+        box-sizing: border-box;
+        padding: 36px;
+        border: 1px solid #cbd5e1;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 12px 34px rgb(25 52 45 / 8%);
+      }
+
+      h1 {
+        margin: 0 0 28px;
+        font-size: 28px;
+        line-height: 1.35;
+      }
+
+      label {
+        display: block;
+        margin: 18px 0 8px;
+        font-weight: 650;
+      }
+
+      input {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #93c5fd;
+        border-radius: 9px;
+        font: inherit;
+      }
+
+      select,
+      textarea {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #93c5fd;
+        border-radius: 9px;
+        font: inherit;
+        background: #fff;
+      }
+
+      textarea { min-height: 120px; resize: vertical; }
+
+      select:focus,
+      textarea:focus {
+        outline: 3px solid #60a5fa;
+        border-color: #3b82f6;
+      }
+
+      input:focus {
+        outline: 3px solid #60a5fa;
+        border-color: #3b82f6;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px;
+        border: 0;
+        border-radius: 9px;
+        color: #fff;
+        background: #1d4ed8;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.7;
+      }
+
+      .error-message {
+        margin: 16px 0 0;
+        color: #b42318;
+        font-weight: 600;
       }
 
       #app-screen {
-        width: min(100% - 32px, 920px);
+        width: min(100%, 920px);
         box-sizing: border-box;
         padding: 24px;
         border-radius: 14px;
         background: #fff;
-        box-shadow: 0 8px 24px rgb(20 40 60 / 6%);
       }
 
-      #app-screen h1 {
-        margin: 0;
-      }
+      #app-screen h1 { margin-bottom: 0; }
 
       .screen-heading {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        margin-bottom: 24px;
-      }
-
-      .screen-heading h1 {
-        margin: 0;
       }
 
       .screen-heading button {
         width: auto;
-        min-width: 120px;
+        flex: 0 0 auto;
         margin: 0;
-        padding: 10px 18px;
+        padding: 11px 18px;
       }
 
-      .home-date {
-        display: block;
-        max-width: 280px;
-      }
+      .screen-view { margin-top: 24px; }
 
-      #home-date {
-        box-sizing: border-box;
-        width: 100%;
-        min-height: 44px;
-        margin-top: 8px;
-        padding: 9px 12px;
-        border: 1px solid #aeb9c4;
-        border-radius: 6px;
-        font: inherit;
-      }
+      .home-date { max-width: 280px; }
 
       .home-summary-cards {
         display: grid;
@@ -160,43 +228,27 @@
         min-height: 96px;
         box-sizing: border-box;
         padding: 18px;
-        border: 1px solid #d8e3dc;
+        border: 1px solid #cbd5e1;
         border-radius: 12px;
-        background: #f8faf8;
-      }
-
-      .home-summary-card span {
-        display: block;
-        color: #52665b;
-        font-weight: 650;
-      }
-
-      .home-summary-card strong {
-        display: block;
-        margin-top: 10px;
-        font-size: 28px;
-      }
-
-      .home-summary-card {
-        width: 100%;
+        background: #f8fafc;
+        color: inherit;
+        font: inherit;
         text-align: left;
         cursor: pointer;
       }
 
-      .home-summary-card:hover {
-        background: #edf5ef;
-      }
+      .home-summary-card span { display: block; color: #475569; font-weight: 650; }
+
+      .home-summary-card strong { display: block; margin-top: 10px; font-size: 28px; }
+
+      .home-summary-card:hover { background: #eff6ff; }
 
       .home-summary-card[aria-pressed="true"] {
-        border: 2px solid #276447;
-        background: #e1efe5;
+        border: 2px solid #1d4ed8;
+        background: #dbeafe;
       }
 
-      .home-inspection-list {
-        display: grid;
-        gap: 12px;
-        margin-top: 20px;
-      }
+      .home-inspection-list { display: grid; gap: 12px; margin-top: 20px; }
 
       .home-inspection-card {
         display: grid;
@@ -206,17 +258,13 @@
         width: 100%;
         margin: 0;
         padding: 12px;
-        border: 1px solid #d8e3dc;
-        border-radius: 10px;
-        color: #19342d;
+        border: 1px solid #cbd5e1;
+        color: #0f172a;
         background: #fff;
         text-align: left;
-        cursor: pointer;
       }
 
-      .home-inspection-card:hover {
-        background: #f2f6f3;
-      }
+      .home-inspection-card:hover { background: #f0f4f8; }
 
       .home-inspection-card img,
       .home-inspection-card .no-photo {
@@ -226,28 +274,45 @@
         place-items: center;
         object-fit: cover;
         border-radius: 8px;
-        background: #edf2ee;
+        background: #e2e8f0;
       }
 
-      .home-inspection-details {
-        display: grid;
-        gap: 5px;
-        min-width: 0;
-      }
+      .home-inspection-details { display: grid; gap: 5px; }
 
-      .home-inspection-details span {
-        overflow-wrap: anywhere;
-      }
+      .home-inspection-details strong { overflow-wrap: anywhere; }
 
-      .home-list-message {
-        margin: 4px 0;
-        color: #5b6672;
-      }
+      .home-list-message { margin: 18px 0 0; color: #475569; }
 
       @media (max-width: 700px) {
-        .home-summary-cards {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        .home-summary-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      .inspection-fields {
+        max-width: 620px;
+      }
+
+      .weight-range {
+        margin: 12px 0 0;
+        padding: 12px 14px;
+        border-radius: 8px;
+        color: #1e40af;
+        background: #eff6ff;
+        font-weight: 650;
+      }
+
+      .image-previews {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .image-previews img {
+        width: 92px;
+        height: 92px;
+        object-fit: cover;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
       }
 
       .inspection-summary {
@@ -256,15 +321,13 @@
         margin-bottom: 24px;
       }
 
-      .inspection-summary p {
-        margin: 0;
-      }
+      .inspection-summary p { margin: 0; }
 
       .inspection-tabs {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        border-bottom: 1px solid #d8e3dc;
+        border-bottom: 1px solid #cbd5e1;
       }
 
       .inspection-tabs button {
@@ -272,19 +335,66 @@
         margin: 0;
         padding: 12px 14px;
         border-radius: 8px 8px 0 0;
-        color: #40584d;
-        background: #edf2ee;
+        color: #334155;
+        background: #e2e8f0;
       }
 
       .inspection-tabs button[aria-selected="true"] {
         color: #fff;
-        background: #276447;
+        background: #1d4ed8;
       }
 
-      .inspection-tab-panel {
-        min-height: 48px;
-        padding-top: 18px;
+      .inspection-tab-panel { min-height: 48px; padding-top: 18px; }
+
+      .judgment-section { display: grid; gap: 22px; }
+
+      .judgment-section h2 { margin: 0; font-size: 22px; }
+
+      .judgment-group { margin: 0; padding: 0; border: 0; }
+
+      .judgment-group legend { margin-bottom: 10px; font-weight: 700; }
+
+      .judgment-options { display: flex; flex-wrap: wrap; gap: 10px; }
+
+      .judgment-options button {
+        width: auto;
+        margin: 0;
+        padding: 11px 16px;
+        border: 1px solid #bfdbfe;
+        color: #334155;
+        background: #e2e8f0;
       }
+
+      .judgment-options button[aria-pressed="true"] { color: #fff; }
+
+      .judgment-options button[data-judgment="OK"][aria-pressed="true"] {
+        border-color: #2563eb;
+        background: #2563eb;
+      }
+
+      .judgment-options button[data-judgment="NG"][aria-pressed="true"] {
+        border-color: #b42318;
+        background: #b42318;
+      }
+
+      .judgment-options button[data-judgment="HOLD"][aria-pressed="true"] {
+        border-color: #b87500;
+        background: #b87500;
+      }
+
+      .judgment-options button[data-defect][aria-pressed="true"] {
+        border-color: #1d4ed8;
+        color: #fff;
+        background: #1d4ed8;
+      }
+
+      .detail-record-history { margin-top: 24px; padding-top: 18px; border-top: 1px solid #cbd5e1; }
+
+      .detail-record-history summary { color: #1d4ed8; font-weight: 750; cursor: pointer; }
+
+      .detail-record-history ol { display: grid; gap: 10px; padding-left: 24px; }
+
+      .detail-record-history li { padding: 12px; border-radius: 8px; background: #f0f4f8; line-height: 1.6; overflow-wrap: anywhere; }
 
       .inspection-detail-grid {
         display: grid;
@@ -298,9 +408,9 @@
         aspect-ratio: 4 / 3;
         place-items: center;
         overflow: hidden;
-        border: 1px solid #d8e3dc;
+        border: 1px solid #cbd5e1;
         border-radius: 10px;
-        background: #f2f6f3;
+        background: #f0f4f8;
       }
 
       .detail-main-image img {
@@ -326,9 +436,7 @@
         background: #fff;
       }
 
-      .detail-thumbnails button[aria-current="true"] {
-        border-color: #276447;
-      }
+      .detail-thumbnails button[aria-current="true"] { border-color: #1d4ed8; }
 
       .detail-thumbnails img {
         width: 100%;
@@ -337,249 +445,95 @@
         border-radius: 5px;
       }
 
-      .detail-values {
-        display: grid;
-        gap: 10px;
-        margin: 0;
-      }
+      .detail-values { display: grid; gap: 10px; margin: 0; }
 
-      .detail-values div {
-        display: grid;
-        grid-template-columns: 100px 1fr;
-        gap: 8px;
-      }
+      .detail-values div { display: grid; grid-template-columns: 100px 1fr; gap: 8px; }
 
-      .detail-values dt {
-        color: #52665b;
-        font-weight: 650;
-      }
+      .detail-values dt { color: #475569; font-weight: 650; }
 
-      .detail-values dd {
-        margin: 0;
-        overflow-wrap: anywhere;
-      }
+      .detail-values dd { margin: 0; overflow-wrap: anywhere; }
 
-      .detail-edit {
-        display: grid;
-        grid-template-columns: 100px minmax(0, 1fr);
-        align-items: center;
-        gap: 10px 8px;
-        margin-top: 24px;
-        padding-top: 18px;
-        border-top: 1px solid #d8e3dc;
-      }
+      .detail-edit { margin-top: 24px; padding-top: 18px; border-top: 1px solid #cbd5e1; }
 
-      .detail-edit label {
-        margin: 0;
-      }
+      .detail-edit button { margin-top: 18px; }
 
-      .detail-edit input,
-      .detail-edit select {
-        box-sizing: border-box;
-        width: 100%;
-        min-height: 44px;
-        padding: 9px 12px;
-        border: 1px solid #aeb9c4;
-        border-radius: 6px;
-        font: inherit;
-      }
+      .gemini-result { display: grid; gap: 14px; }
 
-      .detail-edit button,
-      .detail-edit .error-message {
-        grid-column: 1 / -1;
-      }
+      .gemini-result-heading { display: flex; align-items: center; gap: 12px; }
 
-      .detail-edit button {
-        margin: 8px 0 0;
-      }
+      .gemini-result-heading h3 { margin: 0; }
+
+      .gemini-result-badge { padding: 5px 10px; border-radius: 999px; color: #1e40af; background: #eff6ff; font-size: 14px; font-weight: 750; }
+
+      .gemini-result-badge.review-needed { color: #755500; background: #fff1bf; }
+
+      .gemini-result button { width: fit-content; margin: 0; padding: 10px 16px; }
+
+      .evidence-review { margin-top: 22px; padding-top: 18px; border-top: 1px solid #cbd5e1; }
+
+      .evidence-review h3 { margin-top: 0; }
+
+      .evidence-review .evidence-check { display: flex; align-items: center; gap: 9px; margin: 12px 0; }
+
+      .evidence-review .evidence-check input { width: auto; margin: 0; }
+
+      .evidence-review button { margin-top: 12px; }
+
+      .gemini-run-controls { display: grid; grid-template-columns: minmax(140px, 0.7fr) minmax(220px, 1.4fr) auto; align-items: end; gap: 12px; }
+
+      .gemini-run-controls label { margin-top: 0; }
+
+      .gemini-result-fields { display: grid; gap: 12px; margin: 0; }
+
+      .gemini-result-fields div { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: #ffffff; }
+
+      .gemini-result-fields dt { margin-bottom: 6px; color: #475569; font-weight: 700; }
+
+      .gemini-result-fields dd { margin: 0; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+      .gemini-result-fields .gemini-decision dd { font-size: 24px; font-weight: 800; }
+
+      .gemini-result-message { margin: 0; color: #475569; }
+
+      .gemini-comparison { display: grid; gap: 14px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #cbd5e1; }
+
+      .gemini-comparison h3 { margin: 0; }
+
+      .gemini-comparison-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+      .gemini-comparison-table-wrap { overflow-x: auto; }
+
+      .gemini-comparison-table { width: 100%; min-width: 600px; border-collapse: collapse; }
+
+      .gemini-comparison-table th,
+      .gemini-comparison-table td { padding: 12px; border: 1px solid #cbd5e1; text-align: left; vertical-align: top; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+      .gemini-comparison-table thead th { background: #eff6ff; }
+
+      .gemini-comparison-table tbody th { width: 150px; color: #475569; background: #ffffff; }
 
       @media (max-width: 680px) {
-        .inspection-detail-grid {
-          grid-template-columns: 1fr;
-        }
+        .inspection-detail-grid { grid-template-columns: 1fr; }
       }
 
-      .inspection-detail-error[hidden],
-      #inspection-detail-content[hidden] {
-        display: none;
-      }
-
-      .inspection-fields {
-        display: grid;
-        grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
-        align-items: center;
-        gap: 14px 18px;
-      }
-
-      .inspection-fields label {
+      .inspection-detail-error {
         margin: 0;
+        color: #b42318;
+        font-weight: 600;
       }
 
-      .inspection-fields input,
-      .inspection-fields select,
-      .inspection-fields textarea {
-        box-sizing: border-box;
-        width: 100%;
-        min-height: 44px;
-        padding: 9px 12px;
-        border: 1px solid #aeb9c4;
-        border-radius: 6px;
-        font: inherit;
-      }
-
-      .inspection-fields textarea {
-        min-height: 96px;
-        resize: vertical;
-      }
-
-      .weight-range {
-        grid-column: 2;
-        margin: -8px 0 0;
-        color: #536575;
-      }
-
-      .image-previews {
-        grid-column: 2;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .image-preview {
-        width: 88px;
-        height: 88px;
-        object-fit: cover;
-        border: 1px solid #d3dbe3;
-        border-radius: 6px;
-        background: #fff;
-      }
-
-      .inspection-submit-row {
-        grid-column: 1 / -1;
-      }
-
-      .inspection-submit-row button {
-        margin-top: 8px;
-      }
-
-      .screen-view[hidden],
-      .screen-heading button[hidden] {
-        display: none;
-      }
-
-      @media (max-width: 600px) {
-        .inspection-fields {
-          grid-template-columns: 1fr;
-          gap: 8px;
-        }
-
-        .weight-range {
-          grid-column: 1;
-          margin: -4px 0 8px;
-        }
-
-        .image-previews {
-          grid-column: 1;
-        }
-      }
-
-      #not-found-view p {
-        margin: 0 0 18px;
-      }
+      #not-found-view p { margin: 0 0 18px; }
 
       #not-found-view a {
         display: inline-block;
         padding: 10px 16px;
         border-radius: 8px;
-        background: #276447;
         color: #fff;
+        background: #1d4ed8;
         font-weight: 700;
         text-decoration: none;
       }
 
-      .login-box {
-        box-sizing: border-box;
-        width: min(100% - 32px, 420px);
-        padding: 32px;
-        border: 1px solid #dce2e8;
-        border-radius: 12px;
-        background: #fff;
-        box-shadow: 0 8px 24px rgb(20 40 60 / 8%);
-      }
-
-      h1 {
-        margin: 0 0 28px;
-        font-size: 28px;
-        line-height: 1.35;
-      }
-
-      form {
-        display: grid;
-        gap: 12px;
-      }
-
-      label {
-        margin-top: 4px;
-        font-size: 16px;
-        font-weight: 700;
-      }
-
-      input,
-      button {
-        box-sizing: border-box;
-        width: 100%;
-        min-height: 48px;
-        border-radius: 6px;
-        font: inherit;
-      }
-
-      input {
-        padding: 10px 12px;
-        border: 1px solid #aeb9c4;
-      }
-
-      button {
-        margin-top: 8px;
-        border: 0;
-        background: #245f9e;
-        color: #fff;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      button:disabled {
-        cursor: wait;
-        opacity: 0.65;
-      }
-
-      .error-message {
-        margin: 4px 0 0;
-        color: #b42318;
-        line-height: 1.5;
-      }
-
-      .error-message[hidden] {
-        display: none;
-      }
-
-      .header-actions[hidden] {
-        display: none;
-      }
-
-      @media (max-width: 600px) {
-        .app-header {
-          padding: 12px 16px;
-        }
-
-        .brand-link {
-          font-size: 16px;
-        }
-
-        .header-actions,
-        .header-actions nav {
-          gap: 10px;
-        }
-      }
     </style>
   </head>
   <body>
@@ -596,21 +550,17 @@
         <button id="logout-button" class="logout-button" type="button">로그아웃</button>
       </div>
     </header>
+
     <aside id="yellow-notice" class="yellow-notice" hidden>
       AI 분석 결과는 보조 자료이며 품질 담당자의 확인이 필요합니다. 최종 출하 승인은 현장 기준에 따라 별도로 진행하세요.
     </aside>
+
     <div class="page-content">
-      <main class="login-box" id="login-box">
+      <main id="login-box" class="login-box">
         <h1>텀블러 공장 제조품질관리</h1>
         <form id="login-form">
           <label for="username">계정</label>
-          <input
-            id="username"
-            name="username"
-            value="writer"
-            autocomplete="username"
-            required
-          />
+          <input id="username" name="username" value="writer" autocomplete="username" required />
 
           <label for="password">비밀번호</label>
           <input
@@ -626,16 +576,15 @@
           <p id="login-error" class="error-message" role="alert" hidden></p>
         </form>
       </main>
+
       <main id="app-screen" hidden>
         <div class="screen-heading">
           <h1 id="screen-title">품질 현황</h1>
           <button id="new-inspection-link" type="button" data-route="/inspections/new" hidden>사진 등록</button>
         </div>
         <section id="home-view" class="screen-view" hidden>
-          <label class="home-date" for="home-date">
-            날짜
-            <input id="home-date" type="date" />
-          </label>
+          <label class="home-date" for="home-date">날짜</label>
+          <input id="home-date" type="date" />
           <p id="home-summary-error" class="error-message" role="alert" hidden></p>
           <div class="home-summary-cards" aria-live="polite">
             <button type="button" class="home-summary-card" data-home-filter="all" aria-pressed="false"><span>검사 건수</span><strong id="home-total">0</strong></button>
@@ -645,6 +594,29 @@
           </div>
           <p id="home-list-error" class="error-message" role="alert" hidden></p>
           <div id="home-inspection-list" class="home-inspection-list" aria-live="polite"></div>
+        </section>
+        <section id="settings-view" class="screen-view" hidden>
+          <h2>저장소 상태</h2>
+          <p id="storage-status" role="status">저장소 상태를 불러오는 중입니다.</p>
+          <p id="gemini-status" role="status">Gemini 판독 상태를 불러오는 중입니다.</p>
+          <div class="prompt-settings">
+            <h2>Gemini 판독 지시</h2>
+            <label for="prompt-version">버전</label>
+            <select id="prompt-version" disabled></select>
+            <label for="prompt-text">지시문</label>
+            <textarea id="prompt-text" rows="12" disabled></textarea>
+            <button id="save-prompt" type="button" disabled>수정본 저장</button>
+            <p id="prompt-message" role="status" aria-live="polite"></p>
+          </div>
+          <div class="prompt-settings">
+            <h2>NotebookLM 근거 질문</h2>
+            <label for="notebooklm-prompt-version">버전</label>
+            <select id="notebooklm-prompt-version" disabled></select>
+            <label for="notebooklm-prompt-text">근거 질문</label>
+            <textarea id="notebooklm-prompt-text" rows="12" disabled></textarea>
+            <button id="save-notebooklm-prompt" type="button" disabled>수정본 저장</button>
+            <p id="notebooklm-prompt-message" role="status" aria-live="polite"></p>
+          </div>
         </section>
         <section id="inspection-new-view" class="screen-view" hidden>
           <form id="inspection-fields" class="inspection-fields">
@@ -662,7 +634,6 @@
 
             <label for="inspection-weight">중량(g)</label>
             <input id="inspection-weight" name="weight_g" type="number" step="any" />
-            <span></span>
             <p id="inspection-weight-range" class="weight-range" aria-live="polite">기준 중량을 불러오는 중입니다.</p>
 
             <label for="inspection-memo">메모</label>
@@ -670,30 +641,14 @@
 
             <label for="inspection-images">사진</label>
             <input id="inspection-images" name="images" type="file" accept="image/*" multiple />
-            <span></span>
             <div id="inspection-image-previews" class="image-previews" aria-live="polite"></div>
-            <div class="inspection-submit-row">
-              <button id="inspection-submit" type="submit">검사 등록</button>
-              <p id="inspection-submit-error" class="error-message" role="alert" hidden></p>
-            </div>
+
+            <button id="inspection-submit" type="submit">검사 등록</button>
+            <p id="inspection-submit-error" class="error-message" role="alert" hidden></p>
           </form>
         </section>
-        <section id="settings-view" class="screen-view" hidden>
-          <h2>저장소 상태</h2>
-          <p id="storage-status" role="status">저장소 상태를 불러오는 중입니다.</p>
-          <p id="gemini-status" role="status">Gemini 판독 상태를 불러오는 중입니다.</p>
-          <div class="prompt-settings">
-            <h2>Gemini 판독 지시</h2>
-            <label for="prompt-version">버전</label>
-            <select id="prompt-version" disabled></select>
-            <label for="prompt-text">지시문</label>
-            <textarea id="prompt-text" rows="12" disabled></textarea>
-            <button id="save-prompt" type="button" disabled>수정본 저장</button>
-            <p id="prompt-message" role="status" aria-live="polite"></p>
-          </div>
-        </section>
         <section id="inspection-detail-view" class="screen-view" hidden>
-          <p id="inspection-detail-error" class="error-message" role="alert" hidden></p>
+          <p id="inspection-detail-error" class="inspection-detail-error" role="alert" hidden></p>
           <div id="inspection-detail-content" hidden>
             <div class="inspection-summary">
               <p>검사번호: <strong id="detail-inspection-id"></strong></p>
@@ -707,53 +662,164 @@
               <button type="button" role="tab" id="detail-tab-3" aria-selected="false" aria-controls="detail-panel">③ 검사기준과 비교하기</button>
               <button type="button" role="tab" id="detail-tab-4" aria-selected="false" aria-controls="detail-panel">④ 내 판단 기록</button>
             </div>
-            <div id="detail-panel" class="inspection-tab-panel" role="tabpanel" aria-labelledby="detail-tab-1"></div>
-            <div id="detail-photo-measurement" class="inspection-detail-grid" hidden>
-              <div>
-                <div id="detail-main-image" class="detail-main-image"></div>
-                <div id="detail-thumbnails" class="detail-thumbnails" aria-label="검사 사진"></div>
+            <div id="detail-panel" class="inspection-tab-panel" role="tabpanel" aria-labelledby="detail-tab-1">
+              <div id="detail-photo-measurement" class="inspection-detail-grid">
+                <div>
+                  <div id="detail-main-image" class="detail-main-image"></div>
+                  <div id="detail-thumbnails" class="detail-thumbnails" aria-label="검사 사진"></div>
+                </div>
+                <div>
+                  <dl class="detail-values">
+                    <div><dt>제품</dt><dd id="detail-value-product"></dd></div>
+                    <div><dt>검사일시</dt><dd id="detail-value-date"></dd></div>
+                    <div><dt>검사기준</dt><dd id="detail-value-revision"></dd></div>
+                    <div><dt>중량</dt><dd id="detail-value-weight"></dd></div>
+                    <div><dt>메모</dt><dd id="detail-value-memo"></dd></div>
+                  </dl>
+                  <form id="detail-edit-form" class="detail-edit">
+                    <label for="detail-edit-product">제품</label>
+                    <select id="detail-edit-product" name="product_id"></select>
+                    <label for="detail-edit-date">검사일시</label>
+                    <input id="detail-edit-date" name="inspected_at" type="datetime-local" step="1" required />
+                    <label for="detail-edit-weight">중량(g)</label>
+                    <input id="detail-edit-weight" name="weight_g" type="number" step="any" />
+                    <button id="detail-edit-save" type="submit">저장</button>
+                    <p id="detail-edit-error" class="error-message" role="alert" hidden></p>
+                  </form>
+                </div>
               </div>
-              <div>
-                <dl class="detail-values">
-                  <div><dt>제품</dt><dd id="detail-value-product"></dd></div>
-                  <div><dt>검사일시</dt><dd id="detail-value-date"></dd></div>
-                  <div><dt>검사기준</dt><dd id="detail-value-revision"></dd></div>
-                  <div><dt>중량</dt><dd id="detail-value-weight"></dd></div>
-                  <div><dt>메모</dt><dd id="detail-value-memo"></dd></div>
-                </dl>
-                <form id="detail-edit-form" class="detail-edit">
-                  <label for="detail-edit-product">제품</label>
-                  <select id="detail-edit-product" name="product_id" required></select>
-
-                  <label for="detail-edit-date">검사일시</label>
-                  <input id="detail-edit-date" name="inspected_at" type="datetime-local" step="1" required />
-
-                  <label for="detail-edit-weight">중량(g)</label>
-                  <input id="detail-edit-weight" name="weight_g" type="number" step="any" />
-
-                  <button id="detail-edit-save" type="submit">저장</button>
-                  <p id="detail-edit-error" class="error-message" role="alert" hidden></p>
-                </form>
-              </div>
+              <section id="detail-gemini-result" class="gemini-result" hidden aria-label="AI 판독 결과">
+                <div class="gemini-result-heading">
+                  <h3>AI 판독 결과</h3>
+                  <span id="detail-gemini-badge" class="gemini-result-badge" hidden></span>
+                </div>
+                <div class="gemini-run-controls">
+                  <div>
+                    <label for="detail-gemini-revision">검사기준</label>
+                    <select id="detail-gemini-revision" disabled>
+                      <option value="Rev.A">Rev.A</option>
+                      <option value="Rev.B">Rev.B</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="detail-gemini-prompt">지시문</label>
+                    <select id="detail-gemini-prompt" disabled></select>
+                  </div>
+                  <button id="detail-gemini-request" type="button" disabled>AI 판독 요청</button>
+                </div>
+                <p id="detail-gemini-request-error" class="error-message" role="alert" hidden></p>
+                <p id="detail-gemini-state" class="gemini-result-message" role="status" hidden></p>
+                <p id="detail-gemini-stale" class="weight-range" hidden>검사 기록이 바뀌기 전의 결과입니다. 다시 판독해 주세요.</p>
+                <div id="detail-gemini-fields"></div>
+                <section id="detail-gemini-comparison" class="gemini-comparison" hidden aria-label="판독 이력과 결과 비교">
+                  <h3>판독 이력과 결과 비교</h3>
+                  <div class="gemini-comparison-selectors">
+                    <div>
+                      <label for="detail-gemini-compare-left">첫 번째 결과</label>
+                      <select id="detail-gemini-compare-left"></select>
+                    </div>
+                    <div>
+                      <label for="detail-gemini-compare-right">두 번째 결과</label>
+                      <select id="detail-gemini-compare-right"></select>
+                    </div>
+                  </div>
+                  <div id="detail-gemini-comparison-output" class="gemini-comparison-table-wrap"></div>
+                </section>
+              </section>
+              <section id="detail-evidence-reference" class="evidence-reference" hidden aria-labelledby="detail-evidence-title">
+                <h2 id="detail-evidence-title">검사기준과 비교하기</h2>
+                <details id="detail-standard-source">
+                  <summary id="detail-standard-summary">검사기준 원문 읽기 · Rev.A</summary>
+                  <pre id="detail-standard-text" aria-live="polite"></pre>
+                </details>
+                <label for="detail-evidence-prompt">NotebookLM 근거 질문</label>
+                <select id="detail-evidence-prompt">
+                  <option value="v3">v3</option>
+                </select>
+                <button id="detail-evidence-request" type="button">근거 확인</button>
+                <p id="detail-evidence-guidance" class="gemini-result-message" role="status" aria-live="polite"></p>
+                <section id="detail-evidence-answer" class="gemini-result" hidden aria-label="NotebookLM 근거 답변">
+                  <p id="detail-evidence-mock" class="weight-range" hidden>모의 응답 — 실제 NotebookLM 연결 아님</p>
+                  <pre id="detail-evidence-answer-text"></pre>
+                  <p id="detail-evidence-sources"></p>
+                  <details id="detail-evidence-sent-question" hidden>
+                    <summary>NotebookLM에 보낸 질문 보기</summary>
+                    <pre id="detail-evidence-sent-question-text"></pre>
+                    <p id="detail-evidence-prompt-used"></p>
+                  </details>
+                  <section id="detail-evidence-review" class="evidence-review" hidden aria-label="출처 대조">
+                    <h3>기준 원문과 답변이 일치하나요?</h3>
+                    <p>원문을 열어 문서명·버전·내용을 답변과 비교하세요. 일치할 때만 아래 항목에 체크합니다.</p>
+                    <label class="evidence-check"><input id="detail-evidence-read-match" type="checkbox" /> 원문을 읽었고 답변과 일치합니다</label>
+                    <label class="evidence-check"><input id="detail-evidence-review-needed" type="checkbox" /> AI 판정이 이 기준과 맞지 않습니다(검토 필요)</label>
+                    <label for="detail-evidence-review-memo">메모</label>
+                    <input id="detail-evidence-review-memo" type="text" />
+                    <button id="detail-evidence-review-save" type="button" disabled>출처 대조 기록 저장</button>
+                    <p id="detail-evidence-review-error" class="error-message" role="alert" hidden></p>
+                  </section>
+                </section>
+              </section>
+              <section id="detail-judgment" class="judgment-section" hidden aria-labelledby="detail-judgment-title">
+                <h2 id="detail-judgment-title">내 판단 기록</h2>
+                <fieldset class="judgment-group">
+                  <legend>판정</legend>
+                  <div class="judgment-options" aria-label="판정 선택">
+                    <button type="button" data-judgment="OK" aria-pressed="false">정상 OK</button>
+                    <button type="button" data-judgment="NG" aria-pressed="false">불량 NG</button>
+                    <button type="button" data-judgment="HOLD" aria-pressed="false">보류 HOLD</button>
+                  </div>
+                </fieldset>
+                <fieldset class="judgment-group">
+                  <legend>불량</legend>
+                  <div class="judgment-options" aria-label="불량 선택">
+                    <button type="button" data-defect="D01" aria-pressed="false">스크래치</button>
+                    <button type="button" data-defect="D02" aria-pressed="false">찍힘</button>
+                    <button type="button" data-defect="D03" aria-pressed="false">라벨 오류</button>
+                    <button type="button" data-defect="D04" aria-pressed="false">뚜껑 조립 오류</button>
+                  </div>
+                </fieldset>
+                <div>
+                  <label for="detail-judgment-memo">조치 메모</label>
+                  <textarea id="detail-judgment-memo"></textarea>
+                  <label for="detail-judgment-change-reason">변경 사유</label>
+                  <input id="detail-judgment-change-reason" type="text" />
+                </div>
+                <div>
+                  <button id="detail-judgment-save" type="button">내 판단 저장</button>
+                  <p id="detail-judgment-save-error" class="error-message" role="alert" hidden></p>
+                </div>
+              </section>
             </div>
+            <details id="detail-record-history" class="detail-record-history">
+              <summary>변경 이력</summary>
+              <p id="detail-record-history-error" class="error-message" role="alert" hidden></p>
+              <ol id="detail-record-history-list"></ol>
+            </details>
           </div>
         </section>
-        <section id="settings-view" class="screen-view" hidden></section>
-        <section id="not-found-view" class="screen-view" hidden>
+        <section id="not-found-view" hidden>
           <p>페이지를 찾을 수 없습니다</p>
           <a href="/" data-link>홈으로 가기</a>
         </section>
       </main>
     </div>
+
     <footer id="app-footer" class="app-footer" hidden>텀블러 공장 품질관리 시스템입니다.</footer>
+
     <script>
       const loginBox = document.querySelector('#login-box');
       const appScreen = document.querySelector('#app-screen');
+      const loginForm = document.querySelector('#login-form');
+      const loginButton = document.querySelector('#login-button');
+      const logoutButton = document.querySelector('#logout-button');
+      const loginError = document.querySelector('#login-error');
+      const headerActions = document.querySelector('#header-actions');
+      const headerUser = document.querySelector('#header-user');
+      const yellowNotice = document.querySelector('#yellow-notice');
+      const appFooter = document.querySelector('#app-footer');
       const screenTitle = document.querySelector('#screen-title');
-      const newInspectionLink = document.querySelector('#new-inspection-link');
+      const notFoundView = document.querySelector('#not-found-view');
       const homeView = document.querySelector('#home-view');
-      const inspectionNewView = document.querySelector('#inspection-new-view');
-      const inspectionDetailView = document.querySelector('#inspection-detail-view');
       const settingsView = document.querySelector('#settings-view');
       const storageStatus = document.querySelector('#storage-status');
       const geminiStatus = document.querySelector('#gemini-status');
@@ -761,33 +827,76 @@
       const promptText = document.querySelector('#prompt-text');
       const savePromptButton = document.querySelector('#save-prompt');
       const promptMessage = document.querySelector('#prompt-message');
+      const notebookLMPromptVersion = document.querySelector('#notebooklm-prompt-version');
+      const notebookLMPromptText = document.querySelector('#notebooklm-prompt-text');
+      const saveNotebookLMPromptButton = document.querySelector('#save-notebooklm-prompt');
+      const notebookLMPromptMessage = document.querySelector('#notebooklm-prompt-message');
+      let storageStatusRequestId = 0;
       let promptRecords = [];
-      const notFoundView = document.querySelector('#not-found-view');
-      const inspectionDetailError = document.querySelector('#inspection-detail-error');
+      let notebookLMPromptRecords = [];
+      const homeDate = document.querySelector('#home-date');
+      const homeSummaryError = document.querySelector('#home-summary-error');
+      const homeListError = document.querySelector('#home-list-error');
+      const homeInspectionList = document.querySelector('#home-inspection-list');
+      let homeRequestId = 0;
+      let homeListRequestId = 0;
+      let activeHomeFilter = null;
+      const inspectionNewView = document.querySelector('#inspection-new-view');
+      const inspectionDetailView = document.querySelector('#inspection-detail-view');
       const inspectionDetailContent = document.querySelector('#inspection-detail-content');
-      const detailTabs = [...document.querySelectorAll('.inspection-tabs [role="tab"]')];
+      const inspectionDetailError = document.querySelector('#inspection-detail-error');
       const detailPanel = document.querySelector('#detail-panel');
       const detailPhotoMeasurement = document.querySelector('#detail-photo-measurement');
+      const detailGeminiResult = document.querySelector('#detail-gemini-result');
+      const detailGeminiBadge = document.querySelector('#detail-gemini-badge');
+      const detailGeminiRevision = document.querySelector('#detail-gemini-revision');
+      const detailGeminiPrompt = document.querySelector('#detail-gemini-prompt');
+      const detailGeminiRequest = document.querySelector('#detail-gemini-request');
+      const detailGeminiRequestError = document.querySelector('#detail-gemini-request-error');
+      const detailGeminiState = document.querySelector('#detail-gemini-state');
+      const detailGeminiStale = document.querySelector('#detail-gemini-stale');
+      const detailGeminiFields = document.querySelector('#detail-gemini-fields');
+      const detailGeminiComparison = document.querySelector('#detail-gemini-comparison');
+      const detailGeminiCompareLeft = document.querySelector('#detail-gemini-compare-left');
+      const detailGeminiCompareRight = document.querySelector('#detail-gemini-compare-right');
+      const detailGeminiComparisonOutput = document.querySelector('#detail-gemini-comparison-output');
+      const detailEvidenceReference = document.querySelector('#detail-evidence-reference');
+      const detailStandardSource = document.querySelector('#detail-standard-source');
+      const detailStandardSummary = document.querySelector('#detail-standard-summary');
+      const detailStandardText = document.querySelector('#detail-standard-text');
+      const detailEvidencePrompt = document.querySelector('#detail-evidence-prompt');
+      const detailEvidenceRequest = document.querySelector('#detail-evidence-request');
+      const detailEvidenceGuidance = document.querySelector('#detail-evidence-guidance');
+      const detailEvidenceAnswer = document.querySelector('#detail-evidence-answer');
+      const detailEvidenceMock = document.querySelector('#detail-evidence-mock');
+      const detailEvidenceAnswerText = document.querySelector('#detail-evidence-answer-text');
+      const detailEvidenceSources = document.querySelector('#detail-evidence-sources');
+      const detailEvidenceSentQuestion = document.querySelector('#detail-evidence-sent-question');
+      const detailEvidenceSentQuestionText = document.querySelector('#detail-evidence-sent-question-text');
+      const detailEvidencePromptUsed = document.querySelector('#detail-evidence-prompt-used');
+      const detailEvidenceReview = document.querySelector('#detail-evidence-review');
+      const detailEvidenceReadMatch = document.querySelector('#detail-evidence-read-match');
+      const detailEvidenceReviewNeeded = document.querySelector('#detail-evidence-review-needed');
+      const detailEvidenceReviewMemo = document.querySelector('#detail-evidence-review-memo');
+      const detailEvidenceReviewSave = document.querySelector('#detail-evidence-review-save');
+      const detailEvidenceReviewError = document.querySelector('#detail-evidence-review-error');
+      const detailJudgment = document.querySelector('#detail-judgment');
+      const detailJudgmentMemo = document.querySelector('#detail-judgment-memo');
+      const detailJudgmentChangeReason = document.querySelector('#detail-judgment-change-reason');
+      const detailJudgmentSave = document.querySelector('#detail-judgment-save');
+      const detailJudgmentSaveError = document.querySelector('#detail-judgment-save-error');
+      const detailRecordHistory = document.querySelector('#detail-record-history');
+      const detailRecordHistoryList = document.querySelector('#detail-record-history-list');
+      const detailRecordHistoryError = document.querySelector('#detail-record-history-error');
+      const judgmentDecisionButtons = [...document.querySelectorAll('[data-judgment]')];
+      const judgmentDefectButtons = [...document.querySelectorAll('[data-defect]')];
       const detailMainImage = document.querySelector('#detail-main-image');
       const detailThumbnails = document.querySelector('#detail-thumbnails');
       const detailEditForm = document.querySelector('#detail-edit-form');
       const detailEditSave = document.querySelector('#detail-edit-save');
       const detailEditError = document.querySelector('#detail-edit-error');
-      const detailEditProduct = document.querySelector('#detail-edit-product');
-      const detailEditDate = document.querySelector('#detail-edit-date');
-      const detailEditWeight = document.querySelector('#detail-edit-weight');
-      let activeDetailImages = [];
-      let currentInspection = null;
-      const loginForm = document.querySelector('#login-form');
-      const loginButton = document.querySelector('#login-button');
-      const loginError = document.querySelector('#login-error');
-      const headerActions = document.querySelector('#header-actions');
-      const headerUser = document.querySelector('#header-user');
-      const logoutButton = document.querySelector('#logout-button');
-      const usernameInput = document.querySelector('#username');
-      const passwordInput = document.querySelector('#password');
-      const yellowNotice = document.querySelector('#yellow-notice');
-      const appFooter = document.querySelector('#app-footer');
+      const detailTabs = [...document.querySelectorAll('.inspection-tabs [role="tab"]')];
+      const newInspectionLink = document.querySelector('#new-inspection-link');
       const productSelect = document.querySelector('#inspection-product');
       const revisionSelect = document.querySelector('#inspection-revision');
       const weightRange = document.querySelector('#inspection-weight-range');
@@ -796,206 +905,141 @@
       const inspectionForm = document.querySelector('#inspection-fields');
       const inspectionSubmit = document.querySelector('#inspection-submit');
       const inspectionSubmitError = document.querySelector('#inspection-submit-error');
-      const homeDate = document.querySelector('#home-date');
-      const homeSummaryError = document.querySelector('#home-summary-error');
-      const homeListError = document.querySelector('#home-list-error');
-      const homeInspectionList = document.querySelector('#home-inspection-list');
-      let products = [];
-      let productsLoaded = false;
+      const roleLabels = { writer: '작성자', reviewer: '검토자', 'factory-user': '품질관리' };
       let selectedImageDataUrls = [];
-      let homeSummaryRequestId = 0;
-      let homeListRequestId = 0;
-      let storageStatusRequestId = 0;
-      let activeHomeFilter = null;
-      let signedIn = false;
-      const roleLabels = {
-        writer: '작성자',
-        reviewer: '검토자',
-        'factory-user': '품질관리',
-      };
+      let imageSelectionVersion = 0;
+      let activeDetailImages = [];
+      let activeDetailInspectionId = '';
+      let activeDetailRevision = 'Rev.A';
+      let detailRecordHistoryRequestId = 0;
+      let selectedJudgment = null;
+      const selectedDefects = new Set();
+      let detailPromptRecords = [];
+      let detailPromptOptionsInspectionId = '';
+      let detailPromptOptionsRequestId = 0;
+      let detailGeminiOptionsReady = false;
+      let detailGeminiComparisonResultIds = '';
+      let geminiResultRequestId = 0;
+      let evidenceReferenceRequestId = 0;
+      let evidencePromptRecords = [];
+      let evidenceLinkSaved = false;
+      let geminiPollTimer = null;
 
-      function showSignedInUser(user) {
-        signedIn = true;
-        headerUser.textContent = `${user.username} (${roleLabels[user.role] || user.role})`;
-        headerActions.hidden = false;
-        yellowNotice.hidden = false;
-        appFooter.hidden = false;
-        loginBox.hidden = true;
-        appScreen.hidden = false;
-        renderScreen();
-      }
-
-      function renderScreen() {
-        const route = window.location.pathname;
-        let title = '품질 현황';
-
-        if (route === '/inspections/new') {
-          title = '검사 등록';
-        } else if (/^\/inspections\/[^/]+$/.test(route)) {
-          title = '검사 상세';
-        } else if (route === '/settings') {
-          title = '설정';
-        } else if (route !== '/') {
-          screenTitle.hidden = true;
-          newInspectionLink.hidden = true;
-          homeView.hidden = true;
-          inspectionNewView.hidden = true;
-          inspectionDetailView.hidden = true;
-          settingsView.hidden = true;
-          notFoundView.hidden = false;
-          return;
-        }
-
-        homeView.hidden = route !== '/';
-        inspectionNewView.hidden = route !== '/inspections/new';
-        const detailMatch = route.match(/^\/inspections\/([^/]+)$/);
-        inspectionDetailView.hidden = !detailMatch;
-        settingsView.hidden = route !== '/settings';
-        settingsView.hidden = route !== '/settings';
-        notFoundView.hidden = true;
-        newInspectionLink.hidden = route !== '/';
-        screenTitle.textContent = title;
-        screenTitle.hidden = false;
-
-        if (route === '/') loadProducts();
-        if (route === '/inspections/new') {
-          document.querySelector('#inspection-fields').reset();
-          imageInput.value = '';
-          imagePreviews.replaceChildren();
-          selectedImageDataUrls = [];
-          inspectionSubmitError.textContent = '';
-          inspectionSubmitError.hidden = true;
-          setInspectionDateNow();
-          loadProducts();
-          loadWeightRange();
-        }
-        if (detailMatch) loadInspectionDetail(decodeURIComponent(detailMatch[1]));
-        if (route === '/') loadHomeSummary();
-        if (route === '/settings') {
-          loadStorageStatus();
-          loadPrompts();
-        }
-      }
-
-      function selectDetailTab(index) {
-        detailTabs.forEach((tab, tabIndex) => {
-          tab.setAttribute('aria-selected', String(tabIndex === index));
-        });
-        detailPanel.setAttribute('aria-labelledby', detailTabs[index].id);
-        detailPanel.hidden = index === 0;
-        detailPhotoMeasurement.hidden = index !== 0;
-        detailPanel.textContent = index === 0 ? '' : '이 탭은 나중 회차에서 만듭니다.';
-      }
-
-      function showDetailImage(index) {
-        const imageUrl = activeDetailImages[index];
-        if (!imageUrl) return;
-
-        detailMainImage.replaceChildren();
-        const image = document.createElement('img');
-        image.src = imageUrl;
-        image.alt = `검사 사진 ${index + 1}`;
-        detailMainImage.append(image);
-
-        detailThumbnails.querySelectorAll('button').forEach((button, buttonIndex) => {
-          button.setAttribute('aria-current', String(buttonIndex === index));
+      function readImageAsDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error('사진을 읽지 못했습니다.'));
+          reader.readAsDataURL(file);
         });
       }
 
-      function renderDetailImages(images) {
-        activeDetailImages = images;
-        detailMainImage.replaceChildren();
-        detailThumbnails.replaceChildren();
-        if (images.length === 0) {
-          detailMainImage.textContent = '등록된 사진이 없습니다.';
-          return;
-        }
-
-        images.forEach((imageUrl, index) => {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.dataset.imageIndex = String(index);
-          button.setAttribute('aria-label', `사진 ${index + 1} 크게 보기`);
-          const thumbnail = document.createElement('img');
-          thumbnail.src = imageUrl;
-          thumbnail.alt = '';
-          button.append(thumbnail);
-          detailThumbnails.append(button);
-        });
-        showDetailImage(0);
-      }
-
-      function populateDetailProductOptions(selectedProductId) {
-        const labels = [
-          ['P-SILVER', '은색 텀블러'],
-          ['P-WHITE', '흰색 텀블러'],
-          ['P-BLACK', '검정 텀블러'],
-        ];
-        detailEditProduct.replaceChildren(
-          ...labels.map(([value, label]) => {
-            const option = document.createElement('option');
-            option.value = value;
-            option.textContent = label;
-            return option;
-          }),
-        );
-        detailEditProduct.value = selectedProductId;
-      }
-
-      async function loadInspectionDetail(inspectionId) {
-        inspectionDetailError.hidden = true;
-        inspectionDetailContent.hidden = true;
-        currentInspection = null;
+      imageInput.addEventListener('change', async () => {
+        const selectionVersion = ++imageSelectionVersion;
+        selectedImageDataUrls = [];
+        imagePreviews.replaceChildren();
+        const files = [...imageInput.files];
+        inspectionSubmit.disabled = files.length > 0;
         try {
-          const response = await fetch(`/api/inspections/${encodeURIComponent(inspectionId)}`);
-          const inspection = await response.json();
-          if (!response.ok || inspection.error) {
-            throw new Error(inspection.error || '검사를 불러오지 못했습니다.');
-          }
-
-          const productNames = {
-            'P-SILVER': '텀블러 실버',
-            'P-WHITE': '텀블러 화이트',
-            'P-BLACK': '텀블러 블랙',
-          };
-          const decisionLabels = { OK: '정상', NG: '불량', HOLD: '보류' };
-          currentInspection = inspection;
-          document.querySelector('#detail-inspection-id').textContent = inspection.inspection_id;
-          document.querySelector('#detail-product-name').textContent = productNames[inspection.product_id] || inspection.product_id;
-          document.querySelector('#detail-decision').textContent = decisionLabels[inspection.decision] || '미판정';
-          document.querySelector('#detail-content-version').textContent = `검사 기록 버전: ${inspection.content_version}`;
-          document.querySelector('#detail-value-product').textContent = productNames[inspection.product_id] || inspection.product_id;
-          document.querySelector('#detail-value-date').textContent = inspection.inspected_at;
-          document.querySelector('#detail-value-revision').textContent = inspection.revision;
-          document.querySelector('#detail-value-weight').textContent = inspection.weight_g === null ? '미측정' : `${inspection.weight_g}g`;
-          document.querySelector('#detail-value-memo').textContent = inspection.memo || '없음';
-          populateDetailProductOptions(inspection.product_id);
-          detailEditDate.value = inspection.inspected_at.replace(' ', 'T');
-          detailEditWeight.value = inspection.weight_g ?? '';
-          detailEditError.textContent = '';
-          detailEditError.hidden = true;
-          renderDetailImages(Array.isArray(inspection.images) ? inspection.images : []);
-          selectDetailTab(0);
-          inspectionDetailContent.hidden = false;
+          const dataUrls = await Promise.all(files.map(readImageAsDataUrl));
+          if (selectionVersion !== imageSelectionVersion) return;
+          selectedImageDataUrls = dataUrls;
+          dataUrls.forEach((dataUrl, index) => {
+            const image = document.createElement('img');
+            image.src = dataUrl;
+            image.alt = `선택한 사진 ${index + 1}`;
+            imagePreviews.append(image);
+          });
         } catch (error) {
-          inspectionDetailError.textContent = error.message || '검사를 불러오지 못했습니다.';
-          inspectionDetailError.hidden = false;
+          if (selectionVersion !== imageSelectionVersion) return;
+          imagePreviews.textContent = error.message || '사진을 읽지 못했습니다.';
+        } finally {
+          if (selectionVersion === imageSelectionVersion) inspectionSubmit.disabled = false;
+        }
+      });
+
+      inspectionForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        inspectionSubmitError.hidden = true;
+        if (!inspectionForm.reportValidity()) return;
+        if (selectedImageDataUrls.length === 0) {
+          inspectionSubmitError.textContent = '사진을 골라 주세요.';
+          inspectionSubmitError.hidden = false;
+          return;
+        }
+
+        inspectionSubmit.disabled = true;
+        const weightValue = document.querySelector('#inspection-weight').value;
+        const dateValue = document.querySelector('#inspection-date').value;
+        const payload = {
+          product_id: productSelect.value,
+          inspected_at: `${dateValue.replace('T', ' ')}${dateValue.length === 16 ? ':00' : ''}`,
+          revision: revisionSelect.value,
+          weight_g: weightValue === '' ? null : Number(weightValue),
+          memo: document.querySelector('#inspection-memo').value,
+          images: selectedImageDataUrls,
+        };
+
+        try {
+          const response = await fetch('/api/inspections', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const result = await response.json();
+          if (!response.ok || result.error) {
+            throw new Error(result.error || '검사를 등록하지 못했습니다.');
+          }
+          const inspectionRoute = `/inspections/${encodeURIComponent(result.inspection_id)}`;
+          try {
+            const geminiResponse = await fetch(`/api/inspections/${encodeURIComponent(result.inspection_id)}/gemini`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ revision: result.revision, prompt: 'v3' }),
+            });
+            await geminiResponse.json();
+          } catch {
+            // 판독 시작에 실패해도 이미 등록한 검사는 유지하고 상세 화면으로 이동합니다.
+          }
+          navigate(`${inspectionRoute}?tab=2`);
+        } catch (error) {
+          inspectionSubmitError.textContent = error.message || '검사를 등록하지 못했습니다.';
+          inspectionSubmitError.hidden = false;
+        } finally {
+          inspectionSubmit.disabled = false;
+        }
+      });
+
+      async function loadInspectionFields() {
+        try {
+          const [productsResponse, productsResult] = await fetch('/api/products').then(async (response) => [response, await response.json()]);
+          if (!productsResponse.ok) throw new Error(productsResult.error || '제품 목록을 불러오지 못했습니다.');
+          productSelect.replaceChildren(...productsResult.map((product) => {
+            const option = document.createElement('option');
+            option.value = product.product_id;
+            option.textContent = product.label;
+            return option;
+          }));
+          const now = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+          }).formatToParts(new Date()).reduce((parts, part) => ({ ...parts, [part.type]: part.value }), {});
+          document.querySelector('#inspection-date').value = `${now.year}-${now.month}-${now.day}T${now.hour}:${now.minute}:${now.second}`;
+          await loadWeightRange();
+        } catch (error) {
+          weightRange.textContent = error.message || '제품과 검사기준을 불러오지 못했습니다.';
         }
       }
 
       async function loadHomeSummary() {
-        const requestId = ++homeSummaryRequestId;
-        homeSummaryError.textContent = '';
+        const requestId = ++homeRequestId;
         homeSummaryError.hidden = true;
         const query = homeDate.value ? `?date=${encodeURIComponent(homeDate.value)}` : '';
-
         try {
           const response = await fetch(`/api/home${query}`);
           const summary = await response.json();
-          if (requestId !== homeSummaryRequestId || window.location.pathname !== '/') return;
-          if (!response.ok || summary.error) {
-            throw new Error(summary.error || '하루 현황을 불러오지 못했습니다.');
-          }
+          if (!response.ok) throw new Error(summary.error || '하루 현황을 불러오지 못했습니다.');
+          if (requestId !== homeRequestId || window.location.pathname !== '/') return;
           if (!homeDate.value && summary.date) homeDate.value = summary.date;
           document.querySelector('#home-total').textContent = summary.total;
           document.querySelector('#home-ng').textContent = summary.ng;
@@ -1003,7 +1047,7 @@
           document.querySelector('#home-review-pending').textContent = summary.review_pending;
           await loadHomeInspections();
         } catch (error) {
-          if (requestId !== homeSummaryRequestId) return;
+          if (requestId !== homeRequestId) return;
           homeSummaryError.textContent = error.message || '하루 현황을 불러오지 못했습니다.';
           homeSummaryError.hidden = false;
         }
@@ -1015,14 +1059,12 @@
         try {
           const response = await fetch('/api/operations');
           const result = await response.json();
+          if (!response.ok) throw new Error(result.error || '저장소 상태를 불러오지 못했습니다.');
           if (requestId !== storageStatusRequestId || window.location.pathname !== '/settings') return;
-          if (!response.ok || result.error) {
-            throw new Error(result.error || '저장소 상태를 불러오지 못했습니다.');
-          }
           storageStatus.textContent = `저장소: ${result.label}`;
           geminiStatus.textContent = `Gemini 판독: ${result.gemini_label}`;
         } catch (error) {
-          if (requestId !== storageStatusRequestId) return;
+          if (requestId !== storageStatusRequestId || window.location.pathname !== '/settings') return;
           storageStatus.textContent = error.message || '저장소 상태를 불러오지 못했습니다.';
           geminiStatus.textContent = error.message || 'Gemini 판독 상태를 불러오지 못했습니다.';
         }
@@ -1030,13 +1072,11 @@
 
       async function loadPrompts(selectedName) {
         promptMessage.textContent = '';
-        promptVersion.disabled = true;
-        promptText.disabled = true;
-        savePromptButton.disabled = true;
         try {
           const response = await fetch('/api/prompts');
           const result = await response.json();
           if (!response.ok) throw new Error(result.error || 'Gemini 지시문을 불러오지 못했습니다.');
+          if (window.location.pathname !== '/settings') return;
           promptRecords = result.prompts;
           promptVersion.replaceChildren(...promptRecords.map((prompt) => {
             const option = document.createElement('option');
@@ -1045,8 +1085,7 @@
             return option;
           }));
           promptVersion.value = selectedName || result.default;
-          const selected = promptRecords.find((prompt) => prompt.name === promptVersion.value);
-          promptText.value = selected?.text || '';
+          showSelectedPrompt();
           promptVersion.disabled = false;
           promptText.disabled = false;
           savePromptButton.disabled = false;
@@ -1055,16 +1094,22 @@
         }
       }
 
-      promptVersion.addEventListener('change', () => {
+      function showSelectedPrompt() {
         const selected = promptRecords.find((prompt) => prompt.name === promptVersion.value);
         promptText.value = selected?.text || '';
-        promptMessage.textContent = '';
-      });
+      }
+
+      promptVersion.addEventListener('change', showSelectedPrompt);
 
       savePromptButton.addEventListener('click', async () => {
-        const base = promptVersion.value.match(/^v[123]/)?.[0];
+        const selected = promptRecords.find((prompt) => prompt.name === promptVersion.value);
+        const base = selected?.name.match(/^v[1-3]/)?.[0];
+        if (!base) {
+          promptMessage.textContent = '저장할 지시문 버전을 확인하세요.';
+          return;
+        }
         savePromptButton.disabled = true;
-        promptMessage.textContent = '';
+        promptMessage.textContent = '수정본을 저장하고 있습니다.';
         try {
           const response = await fetch('/api/prompts', {
             method: 'POST',
@@ -1082,9 +1127,65 @@
         }
       });
 
+      async function loadNotebookLMPrompts(selectedName) {
+        notebookLMPromptMessage.textContent = '';
+        try {
+          const response = await fetch('/api/prompts?kind=notebooklm');
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || 'NotebookLM 근거 질문을 불러오지 못했습니다.');
+          if (window.location.pathname !== '/settings') return;
+          notebookLMPromptRecords = result.prompts;
+          notebookLMPromptVersion.replaceChildren(...notebookLMPromptRecords.map((prompt) => {
+            const option = document.createElement('option');
+            option.value = prompt.name;
+            option.textContent = prompt.name;
+            return option;
+          }));
+          notebookLMPromptVersion.value = selectedName || result.default;
+          showSelectedNotebookLMPrompt();
+          notebookLMPromptVersion.disabled = false;
+          notebookLMPromptText.disabled = false;
+          saveNotebookLMPromptButton.disabled = false;
+        } catch (error) {
+          notebookLMPromptMessage.textContent = error.message || 'NotebookLM 근거 질문을 불러오지 못했습니다.';
+        }
+      }
+
+      function showSelectedNotebookLMPrompt() {
+        const selected = notebookLMPromptRecords.find((prompt) => prompt.name === notebookLMPromptVersion.value);
+        notebookLMPromptText.value = selected?.text || '';
+      }
+
+      notebookLMPromptVersion.addEventListener('change', showSelectedNotebookLMPrompt);
+
+      saveNotebookLMPromptButton.addEventListener('click', async () => {
+        const selected = notebookLMPromptRecords.find((prompt) => prompt.name === notebookLMPromptVersion.value);
+        const base = selected?.name.match(/^v[1-3]/)?.[0];
+        if (!base) {
+          notebookLMPromptMessage.textContent = '저장할 근거 질문 버전을 확인하세요.';
+          return;
+        }
+        saveNotebookLMPromptButton.disabled = true;
+        notebookLMPromptMessage.textContent = '수정본을 저장하고 있습니다.';
+        try {
+          const response = await fetch('/api/prompts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ base, text: notebookLMPromptText.value, kind: 'notebooklm' }),
+          });
+          const saved = await response.json();
+          if (!response.ok) throw new Error(saved.error || '근거 질문 수정본을 저장하지 못했습니다.');
+          await loadNotebookLMPrompts(saved.name);
+          notebookLMPromptMessage.textContent = '수정본을 저장했습니다.';
+        } catch (error) {
+          notebookLMPromptMessage.textContent = error.message || '근거 질문 수정본을 저장하지 못했습니다.';
+        } finally {
+          saveNotebookLMPromptButton.disabled = false;
+        }
+      });
+
       async function loadHomeInspections() {
         const requestId = ++homeListRequestId;
-        homeListError.textContent = '';
         homeListError.hidden = true;
         const params = new URLSearchParams();
         if (homeDate.value) params.set('date', homeDate.value);
@@ -1098,9 +1199,7 @@
         try {
           const response = await fetch(`/api/inspections${query ? `?${query}` : ''}`);
           const inspections = await response.json();
-          if (!response.ok || inspections.error) {
-            throw new Error(inspections.error || '검사 목록을 불러오지 못했습니다.');
-          }
+          if (!response.ok) throw new Error(inspections.error || '검사 목록을 불러오지 못했습니다.');
           if (requestId !== homeListRequestId || window.location.pathname !== '/') return;
           renderHomeInspections(inspections);
         } catch (error) {
@@ -1129,8 +1228,7 @@
           'P-BLACK': '텀블러 블랙',
         };
         const decisionLabels = { OK: '정상', NG: '불량', HOLD: '보류' };
-
-        for (const inspection of inspections) {
+        inspections.forEach((inspection) => {
           const card = document.createElement('button');
           card.type = 'button';
           card.className = 'home-inspection-card';
@@ -1150,7 +1248,7 @@
 
           const details = document.createElement('span');
           details.className = 'home-inspection-details';
-          const id = document.createElement('span');
+          const id = document.createElement('strong');
           id.textContent = inspection.inspection_id;
           const product = document.createElement('span');
           product.textContent = productNames[inspection.product_id] || inspection.product_id;
@@ -1161,7 +1259,7 @@
           details.append(id, product, weight, decision);
           card.append(details);
           homeInspectionList.append(card);
-        }
+        });
       }
 
       function updateHomeFilterSelection() {
@@ -1170,50 +1268,25 @@
         });
       }
 
-      function navigate(path) {
-        if (window.location.pathname !== path) {
-          window.history.pushState({}, '', path);
-        }
-        renderScreen();
-      }
+      document.querySelectorAll('[data-home-filter]').forEach((card) => {
+        card.addEventListener('click', () => {
+          const selected = card.dataset.homeFilter;
+          if (selected === 'all') activeHomeFilter = null;
+          else activeHomeFilter = activeHomeFilter === selected ? null : selected;
+          updateHomeFilterSelection();
+          void loadHomeInspections();
+        });
+      });
 
-      function setInspectionDateNow() {
-        const dateInput = document.querySelector('#inspection-date');
-        const now = new Date(Date.now() + new Date().getTimezoneOffset() * 60000 + 9 * 60 * 60000);
-        dateInput.value = now.toISOString().slice(0, 19);
-      }
+      homeInspectionList.addEventListener('click', (event) => {
+        const card = event.target.closest('button[data-inspection-id]');
+        if (card) navigate(`/inspections/${encodeURIComponent(card.dataset.inspectionId)}`);
+      });
 
-      async function loadProducts() {
-        if (productsLoaded) {
-          loadWeightRange();
-          return;
-        }
-        try {
-          const response = await fetch('/api/products');
-          const result = await response.json();
-          if (!response.ok) throw new Error(result.error || '제품을 불러오지 못했습니다.');
-          products = result;
-          const currentValue = productSelect.value;
-          productSelect.replaceChildren(
-            ...products.map((product) => {
-              const option = document.createElement('option');
-              option.value = product.product_id;
-              option.textContent = product.label;
-              return option;
-            }),
-          );
-          if (products.some((product) => product.product_id === currentValue)) {
-            productSelect.value = currentValue;
-          }
-          productsLoaded = true;
-          loadWeightRange();
-        } catch (error) {
-          weightRange.textContent = error.message || '제품을 불러오지 못했습니다.';
-        }
-      }
+      homeDate.addEventListener('change', loadHomeSummary);
 
       async function loadWeightRange() {
-        if (!productSelect.value || !revisionSelect.value) return;
+        if (!productSelect.value) return;
         try {
           const response = await fetch(`/api/standards/${revisionSelect.value}`);
           const standard = await response.json();
@@ -1223,6 +1296,750 @@
         } catch (error) {
           weightRange.textContent = error.message || '검사기준을 불러오지 못했습니다.';
         }
+      }
+
+      async function loadInspectionDetail(route) {
+        geminiResultRequestId += 1;
+        clearTimeout(geminiPollTimer);
+        geminiPollTimer = null;
+        inspectionDetailContent.hidden = true;
+        inspectionDetailError.hidden = true;
+        try {
+          const response = await fetch(`/api${route}`);
+          const inspection = await response.json();
+          if (!response.ok) throw new Error(inspection.error || '검사를 불러오지 못했습니다.');
+          if (window.location.pathname !== route) return;
+          activeDetailInspectionId = inspection.inspection_id;
+          activeDetailRevision = inspection.revision;
+          void loadInspectionRecordHistory(inspection.inspection_id);
+          if (detailPromptOptionsInspectionId !== inspection.inspection_id) {
+            detailPromptOptionsInspectionId = inspection.inspection_id;
+            detailGeminiOptionsReady = false;
+            detailGeminiRevision.disabled = true;
+            detailGeminiPrompt.disabled = true;
+            detailGeminiRequest.disabled = true;
+            void loadDetailPromptOptions(inspection.inspection_id);
+          }
+
+          const productNames = {
+            'P-SILVER': '텀블러 실버',
+            'P-WHITE': '텀블러 화이트',
+            'P-BLACK': '텀블러 블랙',
+          };
+          const decisionLabels = { OK: '정상', NG: '불량', HOLD: '보류' };
+          document.querySelector('#detail-inspection-id').textContent = inspection.inspection_id;
+          document.querySelector('#detail-product-name').textContent = productNames[inspection.product_id] || inspection.product_id;
+          document.querySelector('#detail-decision').textContent = decisionLabels[inspection.decision] || '미판정';
+          document.querySelector('#detail-content-version').textContent = `검사 기록 버전: ${inspection.content_version}`;
+          document.querySelector('#detail-value-product').textContent = productNames[inspection.product_id] || inspection.product_id;
+          document.querySelector('#detail-value-date').textContent = inspection.inspected_at;
+          document.querySelector('#detail-value-revision').textContent = inspection.revision;
+          document.querySelector('#detail-value-weight').textContent = inspection.weight_g === null ? '미측정' : `${inspection.weight_g}g`;
+          document.querySelector('#detail-value-memo').textContent = inspection.memo || '없음';
+          detailJudgmentMemo.value = inspection.memo || '';
+          detailJudgmentChangeReason.value = '담당자 대조 판정 기록';
+          detailJudgmentSaveError.hidden = true;
+          populateDetailProductOptions(inspection.product_id);
+          document.querySelector('#detail-edit-date').value = inspection.inspected_at.replace(' ', 'T');
+          document.querySelector('#detail-edit-weight').value = inspection.weight_g ?? '';
+          detailEditError.hidden = true;
+          renderDetailImages(Array.isArray(inspection.images) ? inspection.images : []);
+          renderJudgmentSelection(inspection);
+          const requestedTab = new URLSearchParams(window.location.search).get('tab');
+          selectDetailTab(requestedTab === '2' ? 1 : requestedTab === '4' ? 3 : 0, false);
+          inspectionDetailContent.hidden = false;
+        } catch (error) {
+          if (window.location.pathname !== route) return;
+          inspectionDetailError.textContent = error.message || '검사를 불러오지 못했습니다.';
+          inspectionDetailError.hidden = false;
+        }
+      }
+
+      function selectDetailTab(index, updateAddress = true) {
+        detailTabs.forEach((tab, tabIndex) => {
+          tab.setAttribute('aria-selected', String(tabIndex === index));
+        });
+        detailPanel.setAttribute('aria-labelledby', detailTabs[index].id);
+        detailPhotoMeasurement.hidden = index !== 0;
+        detailGeminiResult.hidden = index !== 1;
+        detailEvidenceReference.hidden = index !== 2;
+        detailJudgment.hidden = index !== 3;
+        if (index === 1 && activeDetailInspectionId) {
+          void loadGeminiResult(activeDetailInspectionId);
+        } else if (index === 2 && activeDetailInspectionId) {
+          void loadEvidenceReference(activeDetailInspectionId);
+        } else {
+          geminiResultRequestId += 1;
+          clearTimeout(geminiPollTimer);
+          geminiPollTimer = null;
+        }
+        if (updateAddress) {
+          const query = new URLSearchParams(window.location.search);
+          if (index === 1) query.set('tab', '2');
+          else if (index === 3) query.set('tab', '4');
+          else query.delete('tab');
+          const search = query.toString();
+          history.replaceState({}, '', `${window.location.pathname}${search ? `?${search}` : ''}`);
+        }
+      }
+
+      async function loadInspectionRecordHistory(inspectionId) {
+        const requestId = ++detailRecordHistoryRequestId;
+        detailRecordHistory.open = false;
+        detailRecordHistoryList.replaceChildren();
+        detailRecordHistoryError.hidden = true;
+        try {
+          const response = await fetch(`/api/inspections/${encodeURIComponent(inspectionId)}/records`);
+          const records = await response.json();
+          if (!response.ok) throw new Error(records.error || '변경 이력을 불러오지 못했습니다.');
+          if (requestId !== detailRecordHistoryRequestId || activeDetailInspectionId !== inspectionId) return;
+          records.forEach((record) => {
+            const item = document.createElement('li');
+            const weight = record.weight_g === null ? '미측정' : `${record.weight_g}g`;
+            item.textContent = `${record.recorded_at} · 기록 버전 ${record.content_version} · 판정 ${record.decision} · 중량 ${weight} · 저장한 사람 ${record.user_id} · 변경 사유 ${record.change_reason}`;
+            detailRecordHistoryList.append(item);
+          });
+        } catch (error) {
+          if (requestId !== detailRecordHistoryRequestId || activeDetailInspectionId !== inspectionId) return;
+          detailRecordHistoryError.textContent = error.message || '변경 이력을 불러오지 못했습니다.';
+          detailRecordHistoryError.hidden = false;
+          detailRecordHistory.open = true;
+        }
+      }
+
+      async function loadEvidenceReference(inspectionId) {
+        const requestId = ++evidenceReferenceRequestId;
+        detailStandardSource.open = false;
+        detailStandardText.textContent = '검사기준 원문을 불러오는 중입니다.';
+        detailStandardSummary.textContent = '검사기준 원문 읽기 · 불러오는 중';
+        detailEvidenceRequest.disabled = false;
+        detailEvidenceGuidance.textContent = '';
+        detailEvidenceAnswer.hidden = true;
+        try {
+          const statusResponse = await fetch(`/api/inspections/${encodeURIComponent(inspectionId)}/evidence`);
+          const status = await statusResponse.json();
+          if (!statusResponse.ok) throw new Error('서버에서 오류가 발생했습니다.');
+          if (requestId !== evidenceReferenceRequestId || activeDetailInspectionId !== inspectionId) return;
+          const revision = status.revision;
+          detailStandardSummary.textContent = `검사기준 원문 읽기 · ${revision}`;
+          const textResponse = await fetch(`/api/standards/${encodeURIComponent(revision)}/text`);
+          const standard = await textResponse.json();
+          if (!textResponse.ok) throw new Error(standard.error || '서버에서 오류가 발생했습니다.');
+          if (requestId !== evidenceReferenceRequestId || activeDetailInspectionId !== inspectionId) return;
+          detailStandardText.textContent = standard.text;
+          await loadEvidencePrompts(inspectionId, status.query?.prompt_name || 'v3');
+          if (requestId !== evidenceReferenceRequestId || activeDetailInspectionId !== inspectionId) return;
+          if (status.query) renderEvidenceAnswer(status.query, status.link);
+          if (status.mode === 'off') {
+            detailEvidenceRequest.disabled = true;
+            detailEvidenceGuidance.textContent = 'NotebookLM 근거 대조가 꺼져 있습니다(NOTEBOOKLM_MODE=off). 기준 원문을 직접 읽고 판단하세요.';
+          } else if (!status.has_result) {
+            detailEvidenceRequest.disabled = true;
+            detailEvidenceGuidance.textContent = '2번 탭에서 판독 결과를 먼저 준비하세요. 결과가 생기면 근거를 볼 수 있습니다.';
+          } else if (status.stale) {
+            detailEvidenceRequest.disabled = true;
+            detailEvidenceGuidance.textContent = '2번 탭에서 다시 판독해 주세요. 이전 결과로는 근거를 확인할 수 없습니다.';
+          }
+        } catch (error) {
+          if (requestId !== evidenceReferenceRequestId) return;
+          detailStandardText.textContent = error.message || '서버에서 오류가 발생했습니다.';
+          detailEvidenceGuidance.textContent = error.message || '서버에서 오류가 발생했습니다.';
+        }
+      }
+
+      function renderEvidenceAnswer(query, link = null) {
+        detailEvidenceAnswerText.textContent = query.answer || '';
+        const sourceCount = Array.isArray(query.sources) ? query.sources.length : 0;
+        detailEvidenceSources.textContent = `인용한 소스 ${sourceCount}개`;
+        detailEvidenceMock.hidden = query.mode !== 'mock';
+        detailEvidenceSentQuestionText.textContent = query.question || '';
+        const prompt = evidencePromptRecords.find((item) => item.name === query.prompt_name);
+        const base = query.prompt_name?.match(/^v[1-3]/)?.[0] || 'v3';
+        detailEvidencePromptUsed.textContent = prompt?.custom
+          ? `사용한 근거 질문: ${base} · 저장한 수정본`
+          : `사용한 근거 질문: ${base} · 기본 원문`;
+        detailEvidenceSentQuestion.hidden = false;
+        detailEvidenceSentQuestion.open = false;
+        detailEvidenceReview.hidden = false;
+        detailEvidenceReviewError.hidden = true;
+        detailEvidenceReadMatch.checked = false;
+        detailEvidenceReviewNeeded.checked = false;
+        detailEvidenceReviewMemo.value = '';
+        evidenceLinkSaved = false;
+        detailEvidenceReviewSave.textContent = '출처 대조 기록 저장';
+        if (link?.query_id === query.query_id) {
+          const reviewNeeded = link.status === 'REVIEW_NEEDED_BY_USER' || link.status === 'MOCK_REVIEW_NEEDED';
+          detailEvidenceReadMatch.checked = true;
+          detailEvidenceReviewNeeded.checked = reviewNeeded;
+          detailEvidenceReviewMemo.value = link.memo || '';
+          evidenceLinkSaved = true;
+          detailEvidenceReviewSave.textContent = '기준 확인 기록 저장됨';
+        }
+        detailEvidenceReadMatch.disabled = evidenceLinkSaved;
+        detailEvidenceReviewNeeded.disabled = evidenceLinkSaved;
+        detailEvidenceReviewMemo.disabled = evidenceLinkSaved;
+        detailEvidenceReviewSave.disabled = evidenceLinkSaved || !detailEvidenceReadMatch.checked;
+        detailEvidenceAnswer.hidden = false;
+      }
+
+      function updateEvidenceReviewSaveButton() {
+        detailEvidenceReviewSave.disabled = evidenceLinkSaved || !detailEvidenceReadMatch.checked;
+      }
+
+      async function saveEvidenceReview() {
+        if (!activeDetailInspectionId || evidenceLinkSaved) return;
+        detailEvidenceReviewError.hidden = true;
+        detailEvidenceReviewSave.disabled = true;
+        try {
+          const response = await fetch(`/api/inspections/${encodeURIComponent(activeDetailInspectionId)}/evidence-link`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              verdict: detailEvidenceReviewNeeded.checked ? 'review' : 'match',
+              memo: detailEvidenceReviewMemo.value,
+            }),
+          });
+          const link = await response.json();
+          if (!response.ok) throw new Error(link.error || '출처 대조 기록을 저장하지 못했습니다.');
+          evidenceLinkSaved = true;
+          detailEvidenceReviewSave.textContent = '기준 확인 기록 저장됨';
+          detailEvidenceReadMatch.disabled = true;
+          detailEvidenceReviewNeeded.disabled = true;
+          detailEvidenceReviewMemo.disabled = true;
+          detailEvidenceReviewSave.disabled = true;
+          try {
+            await refreshGeminiBadge(activeDetailInspectionId);
+          } catch {
+            // The saved comparison remains successful even if the badge refresh fails.
+          }
+        } catch (error) {
+          detailEvidenceReviewError.textContent = error.message || '출처 대조 기록을 저장하지 못했습니다.';
+          detailEvidenceReviewError.hidden = false;
+          updateEvidenceReviewSaveButton();
+        }
+      }
+
+      async function refreshGeminiBadge(inspectionId) {
+        const response = await fetch(`/api/inspections/${encodeURIComponent(inspectionId)}/gemini`);
+        const status = await response.json();
+        if (response.ok && activeDetailInspectionId === inspectionId) updateGeminiBadge(status);
+      }
+
+      async function loadEvidencePrompts(inspectionId, selectedName = 'v3') {
+        const response = await fetch('/api/prompts?kind=notebooklm');
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || '근거 질문을 불러오지 못했습니다.');
+        if (activeDetailInspectionId !== inspectionId) return;
+        evidencePromptRecords = result.prompts;
+        detailEvidencePrompt.replaceChildren(...evidencePromptRecords.map((prompt) => {
+          const option = document.createElement('option');
+          option.value = prompt.name;
+          option.textContent = prompt.name;
+          return option;
+        }));
+        detailEvidencePrompt.value = evidencePromptRecords.some((prompt) => prompt.name === selectedName)
+          ? selectedName
+          : result.default || 'v3';
+      }
+
+      async function askForEvidence(inspectionId) {
+        detailEvidenceRequest.disabled = true;
+        detailEvidenceGuidance.textContent = '';
+        detailEvidenceAnswerText.textContent = 'NotebookLM에서 검사기준을 찾는 중입니다.';
+        detailEvidenceMock.hidden = true;
+        detailEvidenceSources.textContent = '';
+        detailEvidenceAnswer.hidden = false;
+        detailEvidenceSentQuestion.hidden = true;
+        detailEvidenceReview.hidden = true;
+        try {
+          const response = await fetch(`/api/inspections/${encodeURIComponent(inspectionId)}/evidence`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: detailEvidencePrompt.value || 'v3' }),
+          });
+          const query = await response.json();
+          if (!response.ok) throw new Error(query.error || '근거 확인에 실패했습니다.');
+          if (activeDetailInspectionId !== inspectionId) return;
+          if (!evidencePromptRecords.some((prompt) => prompt.name === query.prompt_name)) {
+            await loadEvidencePrompts(inspectionId, query.prompt_name || 'v3');
+          }
+          if (activeDetailInspectionId !== inspectionId) return;
+          renderEvidenceAnswer(query);
+          detailEvidenceRequest.disabled = false;
+        } catch (error) {
+          detailEvidenceAnswer.hidden = true;
+          detailEvidenceGuidance.textContent = `근거 확인 실패: ${error.message || '서버에서 오류가 발생했습니다.'}`;
+          detailEvidenceRequest.disabled = false;
+        }
+      }
+
+      async function loadGeminiResult(inspectionId) {
+        const requestId = ++geminiResultRequestId;
+        clearTimeout(geminiPollTimer);
+        geminiPollTimer = null;
+        detailGeminiFields.replaceChildren();
+        detailGeminiStale.hidden = true;
+        detailGeminiBadge.hidden = true;
+        detailGeminiState.textContent = '판독 상태를 불러오는 중입니다.';
+        detailGeminiState.hidden = false;
+
+        try {
+          const response = await fetch(`/api/inspections/${encodeURIComponent(inspectionId)}/gemini`);
+          const status = await response.json();
+          if (!response.ok) throw new Error(status.error || '판독 결과를 불러오지 못했습니다.');
+          if (
+            requestId !== geminiResultRequestId ||
+            activeDetailInspectionId !== inspectionId ||
+            detailTabs[1].getAttribute('aria-selected') !== 'true'
+          ) return;
+
+          if (status.state === 'running') {
+            detailGeminiState.textContent = '판독 중';
+            detailGeminiState.hidden = false;
+            geminiPollTimer = setTimeout(() => void loadGeminiResult(inspectionId), 3000);
+          } else if (status.state === 'failed') {
+            detailGeminiState.textContent = `판독 실패: ${status.error || '판독하지 못했습니다.'}`;
+            detailGeminiState.hidden = false;
+          } else {
+            detailGeminiState.hidden = true;
+          }
+
+          const hasResults = Array.isArray(status.results) && status.results.length > 0;
+          renderGeminiComparison(status.results || []);
+          detailGeminiRequest.textContent = hasResults ? 'AI 재판독 요청' : 'AI 판독 요청';
+          detailGeminiRequest.disabled = status.state === 'running' || !detailGeminiOptionsReady;
+          updateGeminiBadge(status);
+
+          detailGeminiStale.hidden = !status.stale;
+          const latest = status.results?.[0];
+          if (!latest) {
+            const empty = document.createElement('p');
+            empty.className = 'gemini-result-message';
+            empty.textContent = '아직 판독한 결과가 없습니다.';
+            detailGeminiFields.append(empty);
+            return;
+          }
+
+          const labels = [
+            ['판정', latest.result['판정']],
+            ['불량유형', latest.result['불량유형']],
+            ['관찰·수치 근거', latest.result['관찰·수치 근거']],
+            ['적용 기준과 출처', latest.result['적용 기준과 출처']],
+            ['권고 조치', latest.result['권고 조치']],
+            ['사람 승인 필요 여부', latest.result['사람 승인 필요 여부']],
+          ];
+          const fields = document.createElement('dl');
+          fields.className = 'gemini-result-fields';
+          labels.forEach(([label, value], index) => {
+            const row = document.createElement('div');
+            if (index === 0) row.classList.add('gemini-decision');
+            const term = document.createElement('dt');
+            term.textContent = label;
+            const description = document.createElement('dd');
+            description.textContent = label === '판정'
+              ? ({ OK: '정상', NG: '불량', HOLD: '보류' }[value] || value)
+              : value;
+            row.append(term, description);
+            fields.append(row);
+          });
+          detailGeminiFields.replaceChildren(fields);
+        } catch (error) {
+          if (requestId !== geminiResultRequestId) return;
+          detailGeminiRequest.disabled = false;
+          detailGeminiState.textContent = error.message || '판독 결과를 불러오지 못했습니다.';
+          detailGeminiState.hidden = false;
+        }
+      }
+
+      function updateGeminiBadge(status) {
+        const hasResults = Array.isArray(status.results) && status.results.length > 0;
+        const reviewNeeded = status.link?.status === 'REVIEW_NEEDED_BY_USER' || status.link?.status === 'MOCK_REVIEW_NEEDED';
+        const badge = status.state === 'running'
+          ? '판독 중'
+          : status.state === 'failed'
+            ? '판독 실패'
+            : !hasResults
+              ? '결과 없음'
+              : status.stale
+                ? '다시 판독 필요'
+                : reviewNeeded
+                  ? '검토 필요'
+                  : '확인할 결과';
+        detailGeminiBadge.textContent = badge;
+        detailGeminiBadge.classList.toggle('review-needed', badge === '검토 필요');
+        detailGeminiBadge.hidden = false;
+      }
+
+      async function loadDetailPromptOptions(inspectionId) {
+        const requestId = ++detailPromptOptionsRequestId;
+        try {
+          const response = await fetch('/api/prompts');
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || 'Gemini 지시문을 불러오지 못했습니다.');
+          if (requestId !== detailPromptOptionsRequestId || activeDetailInspectionId !== inspectionId) return;
+          detailPromptRecords = result.prompts;
+          detailGeminiPrompt.replaceChildren(...detailPromptRecords.map((prompt) => {
+            const option = document.createElement('option');
+            option.value = prompt.name;
+            option.textContent = prompt.name;
+            return option;
+          }));
+          detailGeminiRevision.value = activeDetailRevision;
+          detailGeminiPrompt.value = result.default || 'v3';
+          detailGeminiRevision.disabled = false;
+          detailGeminiPrompt.disabled = false;
+          detailGeminiOptionsReady = true;
+          detailGeminiRequest.disabled = detailGeminiBadge.textContent === '판독 중';
+        } catch (error) {
+          if (requestId !== detailPromptOptionsRequestId || activeDetailInspectionId !== inspectionId) return;
+          detailGeminiRequestError.textContent = error.message || 'Gemini 지시문을 불러오지 못했습니다.';
+          detailGeminiRequestError.hidden = false;
+        }
+      }
+
+      detailGeminiRequest.addEventListener('click', async () => {
+        if (!activeDetailInspectionId || !detailGeminiOptionsReady) return;
+        detailGeminiRequestError.hidden = true;
+        detailGeminiRequest.disabled = true;
+        try {
+          const response = await fetch(`/api/inspections/${encodeURIComponent(activeDetailInspectionId)}/gemini`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ revision: detailGeminiRevision.value, prompt: detailGeminiPrompt.value }),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || '판독을 시작하지 못했습니다.');
+          await loadGeminiResult(activeDetailInspectionId);
+        } catch (error) {
+          detailGeminiRequestError.textContent = error.message || '판독을 시작하지 못했습니다.';
+          detailGeminiRequestError.hidden = false;
+        } finally {
+          if (!geminiPollTimer) detailGeminiRequest.disabled = false;
+        }
+      });
+
+      detailGeminiCompareLeft.addEventListener('change', () => {
+        if (detailGeminiCompareLeft.value === detailGeminiCompareRight.value) {
+          const other = [...detailGeminiCompareRight.options].find((option) => option.value !== detailGeminiCompareLeft.value);
+          if (other) detailGeminiCompareRight.value = other.value;
+        }
+        renderGeminiComparisonTable();
+      });
+
+      detailGeminiCompareRight.addEventListener('change', () => {
+        if (detailGeminiCompareRight.value === detailGeminiCompareLeft.value) {
+          const other = [...detailGeminiCompareLeft.options].find((option) => option.value !== detailGeminiCompareRight.value);
+          if (other) detailGeminiCompareLeft.value = other.value;
+        }
+        renderGeminiComparisonTable();
+      });
+
+      let detailGeminiComparisonResults = [];
+
+      function renderGeminiComparison(results) {
+        if (!Array.isArray(results) || results.length < 2) {
+          detailGeminiComparison.hidden = true;
+          detailGeminiComparisonResults = [];
+          detailGeminiComparisonResultIds = '';
+          detailGeminiCompareLeft.replaceChildren();
+          detailGeminiCompareRight.replaceChildren();
+          detailGeminiComparisonOutput.replaceChildren();
+          return;
+        }
+
+        const resultIds = results.map((record) => record.result_id).join('|');
+        const unchangedSelection = resultIds === detailGeminiComparisonResultIds;
+        const previousLeft = unchangedSelection ? detailGeminiCompareLeft.value : results[0].result_id;
+        const previousRight = unchangedSelection ? detailGeminiCompareRight.value : results[1].result_id;
+        detailGeminiComparisonResultIds = resultIds;
+        detailGeminiComparisonResults = results;
+        const options = results.map((record) => {
+          const option = document.createElement('option');
+          option.value = record.result_id;
+          option.textContent = `${record.instruction_name} · ${record.created_at}`;
+          return option;
+        });
+        detailGeminiCompareLeft.replaceChildren(...options.map((option) => option.cloneNode(true)));
+        detailGeminiCompareRight.replaceChildren(...options.map((option) => option.cloneNode(true)));
+        detailGeminiCompareLeft.value = results.some((record) => record.result_id === previousLeft)
+          ? previousLeft
+          : results[0].result_id;
+        detailGeminiCompareRight.value = results.some((record) => record.result_id === previousRight)
+          ? previousRight
+          : results[1].result_id;
+        if (detailGeminiCompareLeft.value === detailGeminiCompareRight.value) {
+          detailGeminiCompareRight.value = results.find((record) => record.result_id !== detailGeminiCompareLeft.value).result_id;
+        }
+        detailGeminiComparison.hidden = false;
+        renderGeminiComparisonTable();
+      }
+
+      function renderGeminiComparisonTable() {
+        const left = detailGeminiComparisonResults.find((record) => record.result_id === detailGeminiCompareLeft.value);
+        const right = detailGeminiComparisonResults.find((record) => record.result_id === detailGeminiCompareRight.value);
+        if (!left || !right) return;
+
+        const table = document.createElement('table');
+        table.className = 'gemini-comparison-table';
+        const head = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const blankHeader = document.createElement('th');
+        blankHeader.scope = 'col';
+        headerRow.append(blankHeader);
+        [left, right].forEach((record) => {
+          const header = document.createElement('th');
+          header.scope = 'col';
+          header.textContent = `${record.instruction_name} · ${record.created_at}`;
+          headerRow.append(header);
+        });
+        head.append(headerRow);
+        const body = document.createElement('tbody');
+        const fields = [
+          ['판정', '판정'],
+          ['불량유형', '불량유형'],
+          ['관찰·수치 근거', '관찰·수치 근거'],
+          ['적용 기준과 출처', '적용 기준과 출처'],
+          ['권고 조치', '권고 조치'],
+          ['사람 승인 필요 여부', '사람 승인 필요 여부'],
+        ];
+        fields.forEach(([label, key]) => {
+          const row = document.createElement('tr');
+          const heading = document.createElement('th');
+          heading.scope = 'row';
+          heading.textContent = label;
+          row.append(heading);
+          [left, right].forEach((record) => {
+            const cell = document.createElement('td');
+            const value = record.result[key];
+            cell.textContent = key === '판정'
+              ? ({ OK: '정상', NG: '불량', HOLD: '보류' }[value] || value)
+              : value;
+            row.append(cell);
+          });
+          body.append(row);
+        });
+        table.append(head, body);
+        detailGeminiComparisonOutput.replaceChildren(table);
+      }
+
+      function populateDetailProductOptions(selectedProductId) {
+        const labels = [
+          ['P-SILVER', '은색 텀블러'],
+          ['P-WHITE', '흰색 텀블러'],
+          ['P-BLACK', '검정 텀블러'],
+        ];
+        document.querySelector('#detail-edit-product').replaceChildren(...labels.map(([id, label]) => {
+          const option = document.createElement('option');
+          option.value = id;
+          option.textContent = label;
+          option.selected = id === selectedProductId;
+          return option;
+        }));
+      }
+
+      function renderDetailImages(images) {
+        activeDetailImages = images;
+        detailMainImage.replaceChildren();
+        detailThumbnails.replaceChildren();
+        if (images.length === 0) {
+          detailMainImage.textContent = '등록된 사진이 없습니다.';
+          return;
+        }
+        images.forEach((imageUrl, index) => {
+          const thumbnailButton = document.createElement('button');
+          thumbnailButton.type = 'button';
+          thumbnailButton.dataset.imageIndex = String(index);
+          thumbnailButton.setAttribute('aria-label', `사진 ${index + 1} 크게 보기`);
+          const thumbnail = document.createElement('img');
+          thumbnail.src = imageUrl;
+          thumbnail.alt = '';
+          thumbnailButton.append(thumbnail);
+          detailThumbnails.append(thumbnailButton);
+        });
+        showDetailImage(0);
+      }
+
+      function showDetailImage(index) {
+        const imageUrl = activeDetailImages[index];
+        if (!imageUrl) return;
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = `검사 사진 ${index + 1}`;
+        detailMainImage.replaceChildren(image);
+        [...detailThumbnails.querySelectorAll('button')].forEach((button, buttonIndex) => {
+          button.setAttribute('aria-current', String(buttonIndex === index));
+        });
+      }
+
+      detailThumbnails.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-image-index]');
+        if (button) showDetailImage(Number(button.dataset.imageIndex));
+      });
+
+      detailEditForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        detailEditError.hidden = true;
+        if (!detailEditForm.reportValidity()) return;
+
+        detailEditSave.disabled = true;
+        const dateValue = document.querySelector('#detail-edit-date').value;
+        const weightValue = document.querySelector('#detail-edit-weight').value;
+        try {
+          const response = await fetch(`/api${window.location.pathname}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              product_id: document.querySelector('#detail-edit-product').value,
+              inspected_at: `${dateValue.replace('T', ' ')}${dateValue.length === 16 ? ':00' : ''}`,
+              weight_g: weightValue === '' ? null : Number(weightValue),
+            }),
+          });
+          const result = await response.json();
+          if (!response.ok || result.error) throw new Error(result.error || '저장하지 못했습니다.');
+          await loadInspectionDetail(window.location.pathname);
+        } catch (error) {
+          detailEditError.textContent = error.message || '저장하지 못했습니다.';
+          detailEditError.hidden = false;
+        } finally {
+          detailEditSave.disabled = false;
+        }
+      });
+
+      function renderScreen() {
+        const route = window.location.pathname;
+        homeView.hidden = true;
+        settingsView.hidden = true;
+        inspectionNewView.hidden = true;
+        inspectionDetailView.hidden = true;
+        newInspectionLink.hidden = true;
+        let title = '품질 현황';
+        const isDetail = /^\/inspections\/[^/]+$/.test(route);
+        if (!isDetail) {
+          geminiResultRequestId += 1;
+          detailPromptOptionsRequestId += 1;
+          clearTimeout(geminiPollTimer);
+          geminiPollTimer = null;
+          activeDetailInspectionId = '';
+          detailPromptOptionsInspectionId = '';
+          detailGeminiOptionsReady = false;
+        }
+        if (route === '/inspections/new') title = '검사 등록';
+        else if (isDetail) title = '검사 상세';
+        else if (route === '/settings') title = '설정';
+        else if (route !== '/') {
+          screenTitle.hidden = true;
+          notFoundView.hidden = false;
+          return;
+        }
+        screenTitle.textContent = title;
+        screenTitle.hidden = false;
+        const isHome = route === '/';
+        const isSettings = route === '/settings';
+        const isNewInspection = route === '/inspections/new';
+        newInspectionLink.hidden = !isHome;
+        homeView.hidden = !isHome;
+        settingsView.hidden = !isSettings;
+        inspectionNewView.hidden = !isNewInspection;
+        inspectionDetailView.hidden = !isDetail;
+        notFoundView.hidden = true;
+        if (isHome) loadHomeSummary();
+        if (isSettings) {
+          loadStorageStatus();
+          loadPrompts();
+          loadNotebookLMPrompts();
+        }
+        if (isNewInspection) loadInspectionFields();
+        if (isDetail) loadInspectionDetail(route);
+      }
+
+      detailTabs.forEach((tab, index) => tab.addEventListener('click', () => selectDetailTab(index)));
+
+      function renderJudgmentSelection(inspection) {
+        selectedJudgment = ['OK', 'NG', 'HOLD'].includes(inspection.decision) ? inspection.decision : null;
+        selectedDefects.clear();
+        (Array.isArray(inspection.defects) ? inspection.defects : []).forEach((defect) => {
+          if (defect?.defect_code) selectedDefects.add(defect.defect_code);
+        });
+        updateJudgmentButtonStates();
+      }
+
+      function updateJudgmentButtonStates() {
+        judgmentDecisionButtons.forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.judgment === selectedJudgment));
+        });
+        judgmentDefectButtons.forEach((button) => {
+          button.setAttribute('aria-pressed', String(selectedDefects.has(button.dataset.defect)));
+        });
+      }
+
+      judgmentDecisionButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          selectedJudgment = button.dataset.judgment;
+          updateJudgmentButtonStates();
+        });
+      });
+
+      judgmentDefectButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const defectCode = button.dataset.defect;
+          if (selectedDefects.has(defectCode)) selectedDefects.delete(defectCode);
+          else selectedDefects.add(defectCode);
+          updateJudgmentButtonStates();
+        });
+      });
+
+      detailJudgmentSave.addEventListener('click', () => void saveInspectionJudgment());
+
+      async function saveInspectionJudgment() {
+        if (!activeDetailInspectionId) return;
+        const inspectionId = activeDetailInspectionId;
+        detailJudgmentSave.disabled = true;
+        detailJudgmentSaveError.hidden = true;
+        try {
+          const response = await fetch(
+            `/api/inspections/${encodeURIComponent(inspectionId)}/records`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                decision: selectedJudgment,
+                defects: [...selectedDefects],
+                memo: detailJudgmentMemo.value,
+                change_reason: detailJudgmentChangeReason.value,
+              }),
+            },
+          );
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || '판단을 저장하지 못했습니다.');
+          await loadInspectionDetail(`/inspections/${encodeURIComponent(inspectionId)}`);
+        } catch (error) {
+          detailJudgmentSaveError.textContent = error.message || '판단을 저장하지 못했습니다.';
+          detailJudgmentSaveError.hidden = false;
+        } finally {
+          detailJudgmentSave.disabled = false;
+        }
+      }
+
+      detailEvidenceRequest.addEventListener('click', () => {
+        if (activeDetailInspectionId) void askForEvidence(activeDetailInspectionId);
+      });
+      detailEvidenceReadMatch.addEventListener('change', updateEvidenceReviewSaveButton);
+      detailEvidenceReviewNeeded.addEventListener('change', updateEvidenceReviewSaveButton);
+      detailEvidenceReviewSave.addEventListener('click', () => void saveEvidenceReview());
+
+      function showApp(user) {
+        loginBox.hidden = true;
+        appScreen.hidden = false;
+        headerActions.hidden = false;
+        yellowNotice.hidden = false;
+        appFooter.hidden = false;
+        headerUser.textContent = `${user.username} (${roleLabels[user.role] || user.role})`;
+        renderScreen();
+      }
+
+      function navigate(path) {
+        if (window.location.pathname !== path) history.pushState({}, '', path);
+        renderScreen();
       }
 
       function showLoginError(message) {
@@ -1237,11 +2054,7 @@
           if (!response.ok) {
             throw new Error(result.error || '로그인 상태를 확인하지 못했습니다.');
           }
-          if (result.user) {
-            showSignedInUser(result.user);
-          } else {
-            signedIn = false;
-          }
+          if (result.user) showApp(result.user);
         } catch (error) {
           showLoginError(error.message || '로그인 상태를 확인하지 못했습니다.');
         }
@@ -1249,7 +2062,6 @@
 
       loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        loginError.textContent = '';
         loginError.hidden = true;
         loginButton.disabled = true;
 
@@ -1268,12 +2080,7 @@
             showLoginError(result.error || '로그인 정보를 확인하세요.');
             return;
           }
-          const sessionResponse = await fetch('/api/session');
-          const sessionResult = await sessionResponse.json();
-          if (!sessionResponse.ok || !sessionResult.user) {
-            throw new Error(sessionResult.error || '로그인 상태를 확인하지 못했습니다.');
-          }
-          showSignedInUser(sessionResult.user);
+          showApp(result.user);
         } catch (error) {
           showLoginError(error.message || '서버와 통신할 수 없습니다.');
         } finally {
@@ -1282,167 +2089,19 @@
       });
 
       document.addEventListener('click', (event) => {
-        if (!(event.target instanceof Element)) return;
-
-        const link = event.target.closest('a[data-link]');
-        if (
-          !signedIn ||
-          !link ||
-          event.defaultPrevented ||
-          event.button !== 0 ||
-          event.metaKey ||
-          event.ctrlKey ||
-          event.shiftKey ||
-          event.altKey ||
-          link.target ||
-          link.hasAttribute('download')
-        ) {
+        const routeButton = event.target.closest('[data-route]');
+        if (routeButton) {
+          navigate(routeButton.dataset.route);
           return;
         }
-
-        const destination = new URL(link.href, window.location.href);
-        if (destination.origin !== window.location.origin) return;
-
+        const link = event.target.closest('a[data-link]');
+        if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
-        navigate(`${destination.pathname}${destination.search}${destination.hash}`);
+        navigate(link.getAttribute('href'));
       });
 
-      newInspectionLink.addEventListener('click', () => navigate('/inspections/new'));
-      homeDate.addEventListener('change', loadHomeSummary);
-      document.querySelectorAll('[data-home-filter]').forEach((card) => {
-        card.addEventListener('click', () => {
-          const selected = card.dataset.homeFilter;
-          if (selected === 'all') activeHomeFilter = null;
-          else activeHomeFilter = activeHomeFilter === selected ? null : selected;
-          updateHomeFilterSelection();
-          void loadHomeInspections();
-        });
-      });
-      homeInspectionList.addEventListener('click', (event) => {
-        if (!(event.target instanceof Element)) return;
-        const card = event.target.closest('button[data-inspection-id]');
-        if (card) navigate(`/inspections/${encodeURIComponent(card.dataset.inspectionId)}`);
-      });
       productSelect.addEventListener('change', loadWeightRange);
       revisionSelect.addEventListener('change', loadWeightRange);
-      detailTabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => selectDetailTab(index));
-      });
-      detailThumbnails.addEventListener('click', (event) => {
-        if (!(event.target instanceof Element)) return;
-        const button = event.target.closest('button[data-image-index]');
-        if (button) showDetailImage(Number(button.dataset.imageIndex));
-      });
-
-      detailEditForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        detailEditError.textContent = '';
-        detailEditError.hidden = true;
-        if (!detailEditForm.reportValidity() || !currentInspection) return;
-
-        detailEditSave.disabled = true;
-        const dateValue = detailEditDate.value;
-        const weightValue = detailEditWeight.value;
-        try {
-          const response = await fetch(`/api/inspections/${encodeURIComponent(currentInspection.inspection_id)}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              product_id: detailEditProduct.value,
-              inspected_at: `${dateValue.replace('T', ' ')}${dateValue.length === 16 ? ':00' : ''}`,
-              weight_g: weightValue === '' ? null : Number(weightValue),
-            }),
-          });
-          const result = await response.json();
-          if (!response.ok || result.error) {
-            throw new Error(result.error || '저장하지 못했습니다.');
-          }
-          await loadInspectionDetail(currentInspection.inspection_id);
-        } catch (error) {
-          detailEditError.textContent = error.message || '저장하지 못했습니다.';
-          detailEditError.hidden = false;
-        } finally {
-          detailEditSave.disabled = false;
-        }
-      });
-
-      imageInput.addEventListener('change', () => {
-        imagePreviews.replaceChildren();
-        selectedImageDataUrls = [];
-
-        const files = Array.from(imageInput.files || []);
-        Promise.all(files.map(readImageAsDataUrl))
-          .then((dataUrls) => {
-            selectedImageDataUrls = dataUrls;
-            for (let index = 0; index < dataUrls.length; index += 1) {
-              const image = document.createElement('img');
-              image.className = 'image-preview';
-              image.src = dataUrls[index];
-              image.alt = files[index].name;
-              imagePreviews.append(image);
-            }
-          })
-          .catch((error) => {
-            inspectionSubmitError.textContent = error.message || '사진을 읽지 못했습니다.';
-            inspectionSubmitError.hidden = false;
-          });
-      });
-
-      function readImageAsDataUrl(file) {
-        return new Promise((resolve, reject) => {
-          if (!file.type.startsWith('image/')) {
-            reject(new Error('사진 파일을 확인하세요.'));
-            return;
-          }
-
-          const reader = new FileReader();
-          reader.addEventListener('load', () => resolve(reader.result));
-          reader.addEventListener('error', () => reject(new Error('사진을 읽지 못했습니다.')));
-          reader.readAsDataURL(file);
-        });
-      }
-
-      inspectionForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        inspectionSubmitError.textContent = '';
-        inspectionSubmitError.hidden = true;
-
-        if (selectedImageDataUrls.length === 0) {
-          inspectionSubmitError.textContent = '사진을 골라 주세요.';
-          inspectionSubmitError.hidden = false;
-          return;
-        }
-
-        inspectionSubmit.disabled = true;
-        const inspectedAt = document.querySelector('#inspection-date').value;
-        const weightValue = document.querySelector('#inspection-weight').value;
-        const payload = {
-          product_id: productSelect.value,
-          inspected_at: `${inspectedAt.replace('T', ' ')}${inspectedAt.length === 16 ? ':00' : ''}`,
-          revision: revisionSelect.value,
-          weight_g: weightValue === '' ? null : Number(weightValue),
-          memo: document.querySelector('#inspection-memo').value,
-          images: selectedImageDataUrls,
-        };
-
-        try {
-          const response = await fetch('/api/inspections', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          });
-          const result = await response.json();
-          if (!response.ok || result.error) {
-            throw new Error(result.error || '검사를 등록하지 못했습니다.');
-          }
-          navigate(`/inspections/${encodeURIComponent(result.inspection_id)}`);
-        } catch (error) {
-          inspectionSubmitError.textContent = error.message || '검사를 등록하지 못했습니다.';
-          inspectionSubmitError.hidden = false;
-        } finally {
-          inspectionSubmit.disabled = false;
-        }
-      });
 
       logoutButton.addEventListener('click', async () => {
         logoutButton.disabled = true;
@@ -1454,20 +2113,16 @@
           }
 
           loginForm.reset();
-          usernameInput.value = 'writer';
-          passwordInput.value = 'writer1234!';
           loginError.textContent = '';
           loginError.hidden = true;
-          homeSummaryRequestId += 1;
-          homeListRequestId += 1;
+          homeRequestId += 1;
           homeDate.value = '';
           activeHomeFilter = null;
           updateHomeFilterSelection();
-          homeSummaryError.textContent = '';
           homeSummaryError.hidden = true;
-          homeListError.textContent = '';
           homeListError.hidden = true;
           homeInspectionList.replaceChildren();
+          homeListRequestId += 1;
           document.querySelector('#home-total').textContent = '0';
           document.querySelector('#home-ng').textContent = '0';
           document.querySelector('#home-hold').textContent = '0';
@@ -1478,7 +2133,6 @@
           appFooter.hidden = true;
           appScreen.hidden = true;
           loginBox.hidden = false;
-          signedIn = false;
         } catch (error) {
           showLoginError(error.message || '로그아웃하지 못했습니다.');
           loginBox.hidden = false;
@@ -1487,9 +2141,7 @@
         }
       });
 
-      window.addEventListener('popstate', () => {
-        if (signedIn) renderScreen();
-      });
+      window.addEventListener('popstate', renderScreen);
 
       checkLogin();
     </script>
